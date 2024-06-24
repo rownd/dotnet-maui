@@ -1,7 +1,7 @@
 ﻿using JsonKnownTypes;
 using Newtonsoft.Json;
 
-namespace Rownd.Xamarin.Hub.HubMessage
+namespace Rownd.Maui.Hub.HubMessage
 {
     [JsonKnownThisType("can_touch_background_to_dismiss")]
     public class PayloadCanTouchBackgroundToDismiss : PayloadBase

@@ -1,7 +1,7 @@
 ﻿using System;
 using Newtonsoft.Json;
 
-namespace Rownd.Xamarin.Utils
+namespace Rownd.Maui.Utils
 {
     public enum SignInType
     {

@@ -1,8 +1,9 @@
 ﻿using System;
 using Rownd.Controls;
-using Xamarin.Forms;
+using Microsoft.Maui.Controls;
+using Microsoft.Maui;
 
-namespace Rownd.Xamarin.Hub
+namespace Rownd.Maui.Hub
 {
     public interface IHubWebView
     {

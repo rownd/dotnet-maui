@@ -8,7 +8,7 @@
  * }
  *
  */
-namespace Rownd.Xamarin.Utils
+namespace Rownd.Maui.Utils
 {
     using System;
     using System.Threading;

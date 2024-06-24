@@ -1,6 +1,6 @@
 ﻿using System.Runtime.Serialization;
 
-namespace Rownd.Xamarin.Utils
+namespace Rownd.Maui.Utils
 {
     public enum SignInIntent
     {

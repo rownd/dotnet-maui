@@ -3,12 +3,13 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using RestSharp;
-using Rownd.Xamarin.Core;
-using Rownd.Xamarin.Models.Domain;
-using Rownd.Xamarin.Utils;
-using Xamarin.Forms;
+using Rownd.Maui.Core;
+using Rownd.Maui.Models.Domain;
+using Rownd.Maui.Utils;
+using Microsoft.Maui.Controls;
+using Microsoft.Maui;
 
-namespace Rownd.Xamarin.Models.Repos
+namespace Rownd.Maui.Models.Repos
 {
     public class AuthRepo
     {
@@ -86,7 +87,7 @@ namespace Rownd.Xamarin.Models.Repos
                     {
                         AuthState = response.Data
                     })
-                );
+);
 
                 return response.Data;
             }
@@ -130,7 +131,7 @@ namespace Rownd.Xamarin.Models.Repos
                             {
                                 AuthState = result
                             })
-                        );
+);
 
                         return result;
                     }

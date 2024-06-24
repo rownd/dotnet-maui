@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Threading.Tasks;
 using ReduxSimple;
-using Rownd.Xamarin.Core;
-using Rownd.Xamarin.Models.Domain;
-using Rownd.Xamarin.Models.Repos;
-using Rownd.Xamarin.Utils;
-using static Rownd.Xamarin.RowndInstance;
+using Rownd.Maui.Core;
+using Rownd.Maui.Models.Domain;
+using Rownd.Maui.Models.Repos;
+using Rownd.Maui.Utils;
+using static Rownd.Maui.RowndInstance;
 
-namespace Rownd.Xamarin
+namespace Rownd.Maui
 {
     public interface IRowndInstance
     {

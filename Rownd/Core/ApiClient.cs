@@ -5,7 +5,7 @@ using Newtonsoft.Json.Serialization;
 using RestSharp;
 using RestSharp.Serializers.NewtonsoftJson;
 
-namespace Rownd.Xamarin.Core
+namespace Rownd.Maui.Core
 {
     public class ApiClient
     {

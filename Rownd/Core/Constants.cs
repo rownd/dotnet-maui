@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Reflection;
 using Newtonsoft.Json;
-using Rownd.Xamarin.Utils;
-using Xamarin.Essentials;
+using Rownd.Maui.Utils;
+using Microsoft.Maui.Devices;
 
-namespace Rownd.Xamarin.Core
+namespace Rownd.Maui.Core
 {
     public static class Constants
     {

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Rownd.Xamarin.Hub.HubMessage
+namespace Rownd.Maui.Hub.HubMessage
 {
     public class PayloadUserDataUpdate : PayloadBase
     {

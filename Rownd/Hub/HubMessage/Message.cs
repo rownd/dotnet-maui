@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
-namespace Rownd.Xamarin.Hub.HubMessage
+namespace Rownd.Maui.Hub.HubMessage
 {
     public class Message
     {

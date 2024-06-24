@@ -5,7 +5,7 @@ using System.Runtime.Serialization;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace Rownd.Xamarin.Models.Domain
+namespace Rownd.Maui.Models.Domain
 {
     public class AppState
     {

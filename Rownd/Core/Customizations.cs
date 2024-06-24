@@ -1,9 +1,12 @@
 ﻿using System;
 using Newtonsoft.Json;
-using Rownd.Xamarin.Utils;
-using Xamarin.Forms;
+using Rownd.Maui.Utils;
+using Microsoft.Maui.Graphics;
+using Microsoft.Maui.Controls;
+using Microsoft.Maui;
+using Microsoft.Maui.ApplicationModel;
 
-namespace Rownd.Xamarin.Core
+namespace Rownd.Maui.Core
 {
     public class Customizations
     {
@@ -15,12 +18,12 @@ namespace Rownd.Xamarin.Core
         {
             get
             {
-                OSAppTheme currentTheme = Application.Current.RequestedTheme;
+                AppTheme currentTheme = Application.Current.RequestedTheme;
                 return SheetBackgroundColor != null
                     ? SheetBackgroundColor
-                    : (currentTheme == OSAppTheme.Dark
-                        ? Color.FromHex("#1c1c1e")
-                        : Color.FromHex("#ffffff"));
+                    : (currentTheme == AppTheme.Dark
+                        ? Color.FromArgb("#1c1c1e")
+                        : Color.FromArgb("#ffffff"));
             }
         }
 
@@ -29,26 +32,27 @@ namespace Rownd.Xamarin.Core
 
         public int SheetCornerBorderRadius { get; set; } = 12;
 
-        public double DefaultFontSize { get; set; } = Device.GetNamedSize(NamedSize.Medium, typeof(Label)) * 0.6;
+        public double DefaultFontSize { get; set; } = // TODO Xamarin.Forms.Device.GetNamedSize is not longer supported. For more details see https://learn.microsoft.com/en-us/dotnet/maui/migration/forms-projects#device-changes
+Device.GetNamedSize(NamedSize.Medium, typeof(Label)) * 0.6;
 
         public Customizations()
         {
-            OSAppTheme currentTheme = Application.Current.RequestedTheme;
+            AppTheme currentTheme = Application.Current.RequestedTheme;
 
             switch (currentTheme)
             {
-                case OSAppTheme.Unspecified:
-                case OSAppTheme.Light:
+                case AppTheme.Unspecified:
+                case AppTheme.Light:
                     {
-                        SheetBackgroundColor = Color.White;
-                        PrimaryForegroundColor = Color.FromHex("#222222");
+                        SheetBackgroundColor = Colors.White;
+                        PrimaryForegroundColor = Color.FromArgb("#222222");
                         break;
                     }
 
-                case OSAppTheme.Dark:
+                case AppTheme.Dark:
                     {
-                        SheetBackgroundColor = Color.FromHex("#333333");
-                        PrimaryForegroundColor = Color.White;
+                        SheetBackgroundColor = Color.FromArgb("#333333");
+                        PrimaryForegroundColor = Colors.White;
                         break;
                     }
             }

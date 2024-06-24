@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using Rownd.Xamarin.Core;
-using Rownd.Xamarin.Utils;
+using Rownd.Maui.Core;
+using Rownd.Maui.Utils;
 
-namespace Rownd.Xamarin.Models
+namespace Rownd.Maui.Models
 {
     public class ThirdPartySignInData
     {

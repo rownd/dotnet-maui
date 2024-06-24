@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using RestSharp;
-using Rownd.Xamarin.Core;
-using Rownd.Xamarin.Models.Domain;
-using Xamarin.Forms;
+using Rownd.Maui.Core;
+using Rownd.Maui.Models.Domain;
+using Microsoft.Maui.Controls;
+using Microsoft.Maui;
 
-namespace Rownd.Xamarin.Models.Repos
+namespace Rownd.Maui.Models.Repos
 {
     public class UserRepo
     {
@@ -53,7 +54,7 @@ namespace Rownd.Xamarin.Models.Repos
                     {
                         UserState = response.Data
                     })
-                );
+);
                 return response.Data;
             }
             catch (Exception ex)
@@ -74,7 +75,7 @@ namespace Rownd.Xamarin.Models.Repos
                     {
                         UserState = response
                     })
-                );
+);
                 return response;
             }
             catch (Exception ex)

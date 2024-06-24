@@ -1,7 +1,7 @@
 ﻿using System;
-using Xamarin.CommunityToolkit.ObjectModel;
+using Rownd.Controls;
 
-namespace Rownd.Xamarin.Models.Domain
+namespace Rownd.Maui.Models.Domain
 {
     public class StateBase : ObservableObject
     {

@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Rownd.Xamarin.Models.Domain;
+using Rownd.Maui.Models.Domain;
 
-namespace Rownd.Xamarin.Core
+namespace Rownd.Maui.Core
 {
     public static class AutomationProcessor
     {

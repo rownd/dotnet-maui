@@ -1,21 +1,24 @@
-﻿using System;
-using System.Data;
-using System.Threading.Tasks;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Rownd.Controls;
-using Rownd.Xamarin.Core;
-using Rownd.Xamarin.Hub.HubMessage;
-using Rownd.Xamarin.Models;
-using Rownd.Xamarin.Models.Domain;
-using Rownd.Xamarin.Models.Repos;
-using Rownd.Xamarin.Utils;
-using Xamarin.Essentials;
-using Xamarin.Forms;
+using Rownd.Maui.Core;
+using Rownd.Maui.Hub.HubMessage;
+using Rownd.Maui.Models;
+using Rownd.Maui.Models.Domain;
+using Rownd.Maui.Models.Repos;
+using Rownd.Maui.Utils;
 
-namespace Rownd.Xamarin.Hub
+//#if IOS
+//using PlatformView = Rownd.Maui.Hub.HubWebViewHandler;
+//#elif ANDROID
+//using PlatformView = Rownd.Maui.Hub.HubWebView;
+//#else
+//using PlatformView = System.Object;
+//#endif
+
+namespace Rownd.Maui.Hub
 {
-    public class HubWebView : WebView, IBottomSheetChild
+    internal partial class HubWebView : WebView, IBottomSheetChild
     {
         private readonly Config config = Shared.ServiceProvider.GetService<Config>();
         private readonly StateRepo stateRepo = StateRepo.Get();
@@ -23,6 +26,13 @@ namespace Rownd.Xamarin.Hub
         internal double KeyboardHeight { get; private set; } = 0;
         internal RowndSignInJsOptions HubOpts { get; set; } = new RowndSignInJsOptions();
         internal HubPageSelector TargetPage { get; set; } = HubPageSelector.SignIn;
+        internal bool EnableWebDevTools = true;
+
+        private partial Task InitializeWebView();
+
+#if !ANDROID && !IOS && !MACCATALYST && !WINDOWS
+        private partial Task InitializeWebView() => throw null!;
+#endif
 
         public HubWebView()
         {
@@ -38,10 +48,17 @@ namespace Rownd.Xamarin.Hub
             TargetPage = page;
         }
 
+        protected override async void OnHandlerChanged()
+        {
+            base.OnHandlerChanged();
+
+            await InitializeWebView();
+        }
+
         internal async void RenderHub()
         {
             var url = await config.GetHubLoaderUrl();
-            await Device.InvokeOnMainThreadAsync(async () =>
+            await Dispatcher.DispatchAsync(async () =>
             {
                 var connectionState = Connectivity.NetworkAccess;
                 if (connectionState != NetworkAccess.Internet)
@@ -127,18 +144,18 @@ if (typeof rownd !== 'undefined') {{
 
         public void HandleHubMessage(string message)
         {
-            Device.BeginInvokeOnMainThread(async () =>
+            Dispatcher.DispatchAsync(async () =>
             {
                 Console.WriteLine($"Received message: {message}");
                 try
                 {
                     var hubMessage = JsonConvert.DeserializeObject<Message>(message, new JsonConverterPayload());
 
-                    switch (hubMessage.Type)
+                    switch (hubMessage?.Type)
                     {
                         case MessageType.Authentication:
                             {
-                                Console.WriteLine($"Received auth payload: {hubMessage.Payload}");
+                                Loggers.Shared.HubWebView.LogDebug($"Received auth payload: {hubMessage.Payload}");
                                 stateRepo.Store.Dispatch(new StateActions.SetAuthState
                                 {
                                     AuthState = new AuthState()
@@ -251,14 +268,14 @@ if (typeof rownd !== 'undefined') {{
 
                         default:
                             {
-                                Console.WriteLine($"No handler for message type '{hubMessage.Type}'.");
+                                Loggers.Shared.HubWebView.LogDebug($"No handler for message type '{hubMessage?.Type}'.");
                                 break;
                             }
                     }
                 }
                 catch (Exception e)
                 {
-                    Console.WriteLine($"Failed to decode hub message: {e.Message}");
+                    Loggers.Shared.HubWebView.LogError(e, $"Failed to decode hub message ({message})");
                 }
             });
         }
@@ -288,7 +305,7 @@ if (typeof rownd !== 'undefined') {{
             this.bottomSheet = bottomSheet;
         }
 
-        public bool HandleLinkActivation(string linkUrl)
+        public async Task<bool> HandleLinkActivationAsync(string linkUrl)
         {
             // Load only Rownd-related URLs in the webview
             string[] allowedWebViewUrls =
@@ -306,7 +323,7 @@ if (typeof rownd !== 'undefined') {{
                 }
             }
 
-            Device.InvokeOnMainThreadAsync(async () =>
+            await Dispatcher.DispatchAsync(async () =>
             {
                 await Launcher.OpenAsync(new Uri(linkUrl));
             });
@@ -314,16 +331,16 @@ if (typeof rownd !== 'undefined') {{
             return false;
         }
 
-        public void WebView_Navigating(object sender, WebNavigatingEventArgs args)
+        public async void WebView_Navigating(object sender, WebNavigatingEventArgs args)
         {
             // iOS WKWebView uses a special handler in its custom renderer
             // due to behavioral differences
-            if (Device.RuntimePlatform == Device.iOS)
+            if (DeviceInfo.Platform == DevicePlatform.iOS)
             {
                 return;
             }
 
-            if (HandleLinkActivation(args.Url))
+            if (await HandleLinkActivationAsync(args.Url))
             {
                 return;
             }

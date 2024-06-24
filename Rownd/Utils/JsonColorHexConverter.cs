@@ -1,8 +1,9 @@
 ﻿using System;
 using Newtonsoft.Json;
-using Xamarin.Forms;
+using Microsoft.Maui.Controls;
+using Microsoft.Maui;
 
-namespace Rownd.Xamarin.Utils
+namespace Rownd.Maui.Utils
 {
     internal class JsonColorHexConverter : JsonConverter
     {
@@ -18,7 +19,7 @@ namespace Rownd.Xamarin.Utils
 
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
-            return Color.FromHex(Convert.ToString(reader.Value));
+            return Color.FromArgb(Convert.ToString(reader.Value));
         }
     }
 }

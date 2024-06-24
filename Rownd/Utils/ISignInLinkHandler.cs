@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-namespace Rownd.Xamarin.Utils
+namespace Rownd.Maui.Utils
 {
     public interface ISignInLinkHandler
     {

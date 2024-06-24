@@ -1,5 +1,5 @@
 ﻿using System;
-namespace Rownd.Xamarin.Core
+namespace Rownd.Maui.Core
 {
     public enum SignInMethod
     {

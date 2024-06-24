@@ -1,0 +1,64 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="RowndMauiExample.Views.AboutPage"
+             x:DataType="vm:AboutViewModel"
+             xmlns:vm="clr-namespace:RowndMauiExample.ViewModels"
+             Title="{Binding Title}">
+    
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Color x:Key="Accent">#96d1ff</Color>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <StackLayout BackgroundColor="{StaticResource Accent}" VerticalOptions="FillAndExpand" HorizontalOptions="Fill">
+            <StackLayout Orientation="Horizontal" HorizontalOptions="Center" VerticalOptions="Center">
+                <ContentView Padding="0,40,0,40" VerticalOptions="FillAndExpand">
+                    <Image Source="maui_logo.png" VerticalOptions="Center" HeightRequest="64" />
+                </ContentView>
+            </StackLayout>
+        </StackLayout>
+        <ScrollView Grid.Row="1">
+            <StackLayout Orientation="Vertical" Padding="30,24,30,24" Spacing="10">
+                <Label Text="Diagnostic info:" />
+                <Label Text="{Binding RowndState.AppConfig.Id, StringFormat='App ID: {0}'}" />
+                <Label Text="{Binding RowndState.Auth.IsAuthenticated, StringFormat='Is authenticated: {0}'}" />
+                <Label Text="{Binding FirstName, StringFormat='First name: {0}'}" />
+
+                <Button Margin="0,10,0,0" Text="Sign in"
+                        Command="{Binding RequestSignIn}"
+                        BackgroundColor="{StaticResource Primary}"
+                        TextColor="White"
+                        IsVisible="{Binding RowndState.Auth.IsNotAuthenticated}" />
+
+                <StackLayout IsVisible="{Binding RowndState.Auth.IsAuthenticated}">
+                    <Button Margin="0,10,0,0" Text="Sign out"
+                            Command="{Binding SignOut}"
+                            BackgroundColor="{StaticResource Primary}"
+                            TextColor="White" />
+                    <Button Margin="0,10,0,0" Text="Refresh token"
+                            Command="{Binding RefreshToken}"
+                            BackgroundColor="{StaticResource Accent}"
+                            TextColor="White" />
+                    <Button Margin="0,10,0,0" Text="Update name"
+                            Command="{Binding UpdateName}"
+                            BackgroundColor="{StaticResource Accent}"
+                            TextColor="White" />
+                    <Button Margin="0,10,0,0" Text="Edit profile"
+                            Command="{Binding EditProfile}"
+                            BackgroundColor="{StaticResource Accent}"
+                            TextColor="White" />
+                    
+                </StackLayout>
+            </StackLayout>
+        </ScrollView>
+    </Grid>
+
+</ContentPage>
+

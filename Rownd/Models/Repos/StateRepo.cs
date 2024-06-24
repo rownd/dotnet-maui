@@ -4,11 +4,11 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using ReduxSimple;
-using Rownd.Xamarin.Core;
-using Rownd.Xamarin.Models.Domain;
-using Rownd.Xamarin.Utils;
+using Rownd.Maui.Core;
+using Rownd.Maui.Models.Domain;
+using Rownd.Maui.Utils;
 
-namespace Rownd.Xamarin.Models.Repos
+namespace Rownd.Maui.Models.Repos
 {
     public class StateRepo
     {
@@ -67,7 +67,6 @@ namespace Rownd.Xamarin.Models.Repos
                         UserIdentifier = Store.State.Auth.UserIdentifier
                     });
                 }
-
             });
         }
 
@@ -81,8 +80,8 @@ namespace Rownd.Xamarin.Models.Repos
         {
             try
             {
-                var existingStateJsonStr = Shared.App.Properties["rownd_state"] as string;
-                GlobalState existingState = JsonConvert.DeserializeObject<GlobalState>(existingStateJsonStr);
+                var existingStateJsonStr = Preferences.Get("rownd_state", null);
+                GlobalState? existingState = JsonConvert.DeserializeObject<GlobalState>(existingStateJsonStr);
                 Console.WriteLine($"Restoring existing state: {existingState}");
                 InitializeStore(existingState);
             }
@@ -98,8 +97,7 @@ namespace Rownd.Xamarin.Models.Repos
         {
             var stateJson = JsonConvert.SerializeObject(state);
             Console.WriteLine($"Saving serialized state to storage: {stateJson}");
-            Shared.App.Properties["rownd_state"] = stateJson;
-            Shared.App.SavePropertiesAsync();
+            Preferences.Set("rownd_state", stateJson);
         }
 
         private void InitializeStore(GlobalState existingState = null)

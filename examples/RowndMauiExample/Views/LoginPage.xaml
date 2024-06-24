@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://schemas.microsoft.com/dotnet/2021/maui/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:bottomSheet="clr-namespace:BottomSheetXF.Implementations;assembly=BottomSheetXF" xmlns:viewmodels="clr-namespace:RowndMauiExample.ViewModels" x:DataType="viewmodels:LoginViewModel"
+             mc:Ignorable="d"
+             x:Class="RowndMauiExample.Views.LoginPage"
+             xmlns:rownd="clr-namespace:Rownd.Maui.Hub;assembly=Rownd.Maui"
+             Shell.NavBarIsVisible="False">
+    <ContentPage.Content>
+        <!--<rownd:HubWebView x:Name="Webview"  
+             HeightRequest="1000"  
+             WidthRequest="1000"
+             VerticalOptions="FillAndExpand"/>-->  
+    </ContentPage.Content>
+</ContentPage>

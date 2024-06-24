@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Xamarin.Forms;
+using Microsoft.Maui.Controls;
+using Microsoft.Maui;
 
-namespace Rownd.Xamarin.Utils
+namespace Rownd.Maui.Utils
 {
     public interface IPlatformUtils
     {

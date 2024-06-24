@@ -1,6 +1,6 @@
 using System;
 
-namespace Rownd.Xamarin.Utils
+namespace Rownd.Maui.Utils
 {
     public class RowndException : Exception
     {

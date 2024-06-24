@@ -1,7 +1,9 @@
 ﻿using System;
-using Xamarin.Forms;
+using Microsoft.Maui.Controls;
+using Microsoft.Maui;
+using Microsoft.Maui.ApplicationModel;
 
-namespace Rownd.Xamarin.Hub
+namespace Rownd.Maui.Hub
 {
     public class NoInternet
     {
@@ -14,15 +16,15 @@ namespace Rownd.Xamarin.Hub
             // Set Background Color
             var dynamicSheetBackgroundColor = rownd.Config.Customizations.DynamicSheetBackgroundColor;
             var sheetBackgroundColor = rownd.Config.Customizations.SheetBackgroundColor;
-            var backgroundColor = Color.FromRgb(dynamicSheetBackgroundColor.R, dynamicSheetBackgroundColor.G, dynamicSheetBackgroundColor.B);
+            var backgroundColor = Color.FromRgb(dynamicSheetBackgroundColor.Red, dynamicSheetBackgroundColor.Green, dynamicSheetBackgroundColor.Blue);
             if (sheetBackgroundColor != null)
             {
-                backgroundColor = Color.FromRgb(sheetBackgroundColor.R, sheetBackgroundColor.G, sheetBackgroundColor.B);
+                backgroundColor = Color.FromRgb(sheetBackgroundColor.Red, sheetBackgroundColor.Green, sheetBackgroundColor.Blue);
             }
 
             // Set Dark Mode
-            OSAppTheme currentTheme = Application.Current.RequestedTheme;
-            var isDarkMode = currentTheme == OSAppTheme.Dark;
+            AppTheme currentTheme = Application.Current.RequestedTheme;
+            var isDarkMode = currentTheme == AppTheme.Dark;
             var darkMode = appConfig?.Config?.Hub?.Customizations?.DarkMode;
             if (darkMode != null)
             {

@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using Newtonsoft.Json;
-using Rownd.Xamarin.Models.Repos;
+using Rownd.Maui.Models.Repos;
 
-namespace Rownd.Xamarin.Models.Domain
+namespace Rownd.Maui.Models.Domain
 {
     public class UserState
     {

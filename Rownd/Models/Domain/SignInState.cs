@@ -2,7 +2,7 @@
 using System.Text;
 using Newtonsoft.Json;
 
-namespace Rownd.Xamarin.Models.Domain
+namespace Rownd.Maui.Models.Domain
 {
     public class SignInState
     {

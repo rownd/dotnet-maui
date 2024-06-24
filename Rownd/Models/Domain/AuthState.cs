@@ -4,10 +4,10 @@ using System.Text;
 using JWT;
 using JWT.Builder;
 using Newtonsoft.Json;
-using Rownd.Xamarin.Models.Repos;
-using Rownd.Xamarin.Utils;
+using Rownd.Maui.Models.Repos;
+using Rownd.Maui.Utils;
 
-namespace Rownd.Xamarin.Models.Domain
+namespace Rownd.Maui.Models.Domain
 {
     public class AuthState : StateBase
     {

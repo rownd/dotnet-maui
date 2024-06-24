@@ -2,12 +2,12 @@
 using GuerrillaNtp;
 using Microsoft.Extensions.DependencyInjection;
 using ReduxSimple;
-using Rownd.Xamarin.Core;
-using Rownd.Xamarin.Models.Domain;
-using Rownd.Xamarin.Utils;
+using Rownd.Maui.Core;
+using Rownd.Maui.Models.Domain;
+using Rownd.Maui.Utils;
 using static ReduxSimple.Reducers;
 
-namespace Rownd.Xamarin.Models
+namespace Rownd.Maui.Models
 {
     public static class StateReducers
     {

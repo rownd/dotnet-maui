@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
+	<!--<Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />-->
+	<PropertyGroup>
+
+		<!-- Release information -->
+		<PackageId>Rownd.Maui</PackageId>
+		<PackageVersion>1.6.0</PackageVersion>
+		<AssemblyVersion>2</AssemblyVersion>
+		<Title>Rownd.Maui</Title>
+		<Description>Integrate simple, frictionless authentication into your .NET MAUI app.</Description>
+		<Authors>Matt Hamann</Authors>
+		<Company>Rownd, Inc.</Company>
+		<Copyright>Copyright (c) 2024 Rownd, Inc.</Copyright>
+		<RepositoryUrl>https://github.com/rownd/dotnet-maui</RepositoryUrl>
+		<RepositoryType>git</RepositoryType>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<PackageIcon>assets\rownd-xamarin-icon.png</PackageIcon>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<PackRelease>true</PackRelease>
+		<ReleaseVersion>1.1.0</ReleaseVersion>
+		<SynchReleaseVersion>false</SynchReleaseVersion>
+
+		<!-- Framework setup -->
+		<TargetFrameworks>net8.0;net8.0-android;net8.0-ios;net8.0-maccatalyst</TargetFrameworks>
+		<TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net8.0-windows10.0.19041.0</TargetFrameworks>
+
+		<UseMaui>true</UseMaui>
+		<UseMauiEssentials>true</UseMauiEssentials>
+		<OutputType>Library</OutputType>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<SingleProject>true</SingleProject>
+		<Nullable>enable</Nullable>
+
+		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">26.0</SupportedOSPlatformVersion>
+		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">14.0</SupportedOSPlatformVersion>
+		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'maccatalyst'">14.0</SupportedOSPlatformVersion>
+		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.19041.0</SupportedOSPlatformVersion>
+		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'tizen'">6.5</SupportedOSPlatformVersion>
+		<ProjectGuid>{78638D85-4ED5-4921-AF2F-5E7638F40553}</ProjectGuid>
+		<Configurations>Debug;Release</Configurations>
+		<Platforms>AnyCPU</Platforms>
+	</PropertyGroup>
+
+	<!-- Build modes -->
+	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+		<LangVersion>default</LangVersion>
+		<WarningLevel>4</WarningLevel>
+	</PropertyGroup>
+
+	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+		<LangVersion>default</LangVersion>
+		<DebugSymbols>true</DebugSymbols>
+		<DebugType>embedded</DebugType>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-ios|AnyCPU'">
+		<CreatePackage>false</CreatePackage>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-ios16.1|AnyCPU'">
+		<CreatePackage>false</CreatePackage>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="RestSharp" Version="110.2.0" />
+		<PackageReference Include="JsonKnownTypes" Version="0.5.5" />
+		<PackageReference Include="JsonSubTypes" Version="2.0.1" />
+		<PackageReference Include="JWT" Version="10.1.1" />
+		<PackageReference Include="System.Reactive" Version="6.0.0" />
+		<PackageReference Include="RestSharp.Serializers.NewtonsoftJson" Version="110.2.0" />
+		<PackageReference Include="HttpTracer" Version="2.1.1" />
+		<PackageReference Include="ReduxSimple" Version="3.7.0" />
+		<PackageReference Include="GuerrillaNtp" Version="3.1.0" />
+		<PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
+		<PackageReference Include="Microsoft.Extensions.Hosting" Version="7.0.1" />
+		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+		<PackageReference Include="System.Text.Json" Version="7.0.4" />
+		<PackageReference Include="CommunityToolkit.Maui" Version="9.0.1" />
+		<PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)" />
+		<PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="$(MauiVersion)" />
+		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="8.0.0" />
+		<PackageReference Include="Microsoft.Maui.Essentials" Version="8.0.40" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Remove="Core\" />
+		<None Remove="Models\" />
+		<None Remove="Models\Domain\" />
+		<None Remove="Models\Repos\" />
+		<None Remove="Utils\" />
+		<None Remove="assets\" />
+		<None Include="assets/rownd-xamarin-icon.png" Pack="true" PackagePath="assets" />
+		<None Include="README.md" Pack="true" PackagePath="\" />
+		<None Remove="Hub\" />
+		<!--   <None Remove="Platforms\" />
+    <None Remove="Platforms\Android\" />
+    <None Remove="Platforms\Android\Resources\Resource.designer.cs" />
+    <None Remove="Platforms\Android\Resources\values\strings.xml" />
+    <None Remove="Platforms\Android\Resources\" />
+    <None Remove="Platforms\Android\Boot.cs" />
+    <None Remove="Platforms\Android\PlatformUtils.cs" />
+    <None Remove="Platforms\Android\SignInLinkHandler.cs" />
+    <None Remove="Platforms\Android\Hub\CustomLayoutListener.cs" />
+    <None Remove="Platforms\Android\Hub\HubWebViewRenderer.cs" />
+    <None Remove="Platforms\Android\Hub\JSBridge.cs" />
+    <None Remove="Platforms\Android\Hub\" />
+    <None Remove="Platforms\Android\assets\rownd-android-icon.png" />
+    <None Remove="Platforms\Android\assets\" />-->
+		<None Remove="Platforms\iOS\" />
+		<None Remove="Platforms\iOS\assets\rownd-apple-icon.png" />
+		<None Remove="Platforms\MacCatalyst\" />
+	</ItemGroup>
+	<ItemGroup>
+		<Folder Include="Core\" />
+		<Folder Include="Models\" />
+		<Folder Include="Models\Domain\" />
+		<Folder Include="Models\Repos\" />
+		<Folder Include="Utils\" />
+		<Folder Include="assets\" />
+		<Folder Include="Hub\" />
+		<Folder Include="Platforms\" />
+		<Folder Include="Platforms\Android\" />
+		<Folder Include="Platforms\Android\Resources\" />
+		<Folder Include="Platforms\Android\Hub\" />
+		<Folder Include="Platforms\Android\assets\" />
+		<Folder Include="Platforms\iOS\" />
+		<Folder Include="Platforms\MacCatalyst\" />
+	</ItemGroup>
+	<!-- Android -->
+	<ItemGroup Condition="$(TargetFramework.StartsWith('net')) == true AND $(TargetFramework.Contains('-android')) != true">
+		<Compile Remove="**\Android\**\*.cs" />
+		<None Include="**\Android\**\*.cs" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder)" />
+	</ItemGroup>
+	<!-- Both iOS and Mac Catalyst -->
+	<ItemGroup Condition="$(TargetFramework.StartsWith('net8.0-ios')) != true AND $(TargetFramework.StartsWith('net8.0-maccatalyst')) != true">
+		<Compile Remove="**\MaciOS\**\*.cs" />
+	</ItemGroup>
+	<!-- iOS -->
+	<ItemGroup Condition="$(TargetFramework.StartsWith('net8.0-ios')) != true">
+		<Compile Remove="**\iOS\**\*.cs" />
+	</ItemGroup>
+	<!-- Mac Catalyst -->
+	<ItemGroup Condition="$(TargetFramework.StartsWith('net8.0-maccatalyst')) != true">
+		<Compile Remove="**\MacCatalyst\**\*.cs" />
+		<None Include="**\MacCatalyst\**\*.cs" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder)" />
+	</ItemGroup>
+	<!-- Windows -->
+	<ItemGroup Condition="$(TargetFramework.Contains('-windows')) != true">
+		<Compile Remove="**\Windows\**\*.cs" />
+		<None Include="**\Windows\**\*.cs" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder)" />
+	</ItemGroup>
+	<ItemGroup>
+		<AndroidResource Include="Platforms\Android\Resources\values\strings.xml">
+			<SubType>Designer</SubType>
+			<Generator>MSBuild:UpdateGeneratedFiles</Generator>
+		</AndroidResource>
+	</ItemGroup>
+	<ItemGroup>
+		<AndroidAsset Include="Platforms\Android\assets\rownd-android-icon.png">
+			<Pack>true</Pack>
+			<PackagePath>assets</PackagePath>
+		</AndroidAsset>
+	</ItemGroup>
+	<ItemGroup>
+		<None Update="Platforms\Android\README.md">
+			<Pack>true</Pack>
+			<PackagePath>\</PackagePath>
+		</None>
+	</ItemGroup>
+	<ItemGroup>
+	  <BundleResource Include="Platforms\iOS\assets\rownd-apple-icon.png" />
+	</ItemGroup>
+</Project>

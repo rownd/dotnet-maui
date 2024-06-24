@@ -1,5 +1,5 @@
 ﻿using System;
-namespace Rownd.Xamarin.Utils
+namespace Rownd.Maui.Utils
 {
     public static class Extensions
     {

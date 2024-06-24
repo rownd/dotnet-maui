@@ -1,17 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Threading.Tasks;
-using GuerrillaNtp;
+﻿using GuerrillaNtp;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using Rownd.Xamarin.Models.Repos;
-using Rownd.Xamarin.Utils;
-using Xamarin.Forms;
+using Rownd.Maui.Models.Repos;
+using Rownd.Maui.Utils;
 
-namespace Rownd.Xamarin.Core
+namespace Rownd.Maui.Core
 {
     public static class Shared
     {
@@ -31,9 +24,9 @@ namespace Rownd.Xamarin.Core
             var host = new HostBuilder()
                 .ConfigureHostConfiguration(c =>
                 {
-                    c.AddInMemoryCollection(new Dictionary<string, string>
+                    c.AddInMemoryCollection(new List<KeyValuePair<string, string?>>
                     {
-                        { HostDefaults.ContentRootKey, root }
+                        new KeyValuePair<string, string?>(HostDefaults.ContentRootKey, root)
                     });
                 })
                 .ConfigureServices((ctx, svcCollection) =>

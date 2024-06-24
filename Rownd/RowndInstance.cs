@@ -1,24 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.Extensions.DependencyInjection;
-using ReduxSimple;
+﻿using ReduxSimple;
 using Rownd.Controls;
-using Rownd.Xamarin.Core;
-using Rownd.Xamarin.Hub;
-using Rownd.Xamarin.Hub.HubMessage;
-using Rownd.Xamarin.Models;
-using Rownd.Xamarin.Models.Domain;
-using Rownd.Xamarin.Models.Repos;
-using Rownd.Xamarin.Utils;
-using Xamarin.Forms;
+using Rownd.Maui.Core;
+using Rownd.Maui.Hub;
+using Rownd.Maui.Hub.HubMessage;
+using Rownd.Maui.Models;
+using Rownd.Maui.Models.Domain;
+using Rownd.Maui.Models.Repos;
+using Rownd.Maui.Utils;
 
-namespace Rownd.Xamarin
+namespace Rownd.Maui
 {
     public class RowndInstance : IRowndInstance
     {
-        private HubBottomSheetPage hubBottomSheet = null;
+        private HubBottomSheetPage? hubBottomSheet = null;
         private static RowndInstance inst;
 
         internal StateRepo State { get; private set; }
@@ -37,7 +31,7 @@ namespace Rownd.Xamarin
 
         public event EventHandler<RowndEventArgs> Events;
 
-        private RowndInstance(Application app, Config config = null)
+        private RowndInstance(Application app, Config? config = null)
         {
             inst = this;
             Shared.Init(this, app, config);
@@ -47,7 +41,8 @@ namespace Rownd.Xamarin
             User = UserRepo.GetInstance();
             State.Setup();
 
-            if (Device.RuntimePlatform == Device.iOS)
+            // TODO Xamarin.Forms.Device.RuntimePlatform is no longer supported. Use Microsoft.Maui.Devices.DeviceInfo.Platform instead. For more details see https://learn.microsoft.com/en-us/dotnet/maui/migration/forms-projects#device-changes
+            if (DeviceInfo.Platform == DevicePlatform.iOS)
             {
                 DependencyService.Get<IAppleAuthCoordinator>().Inject(this, Auth);
             }
@@ -113,7 +108,7 @@ namespace Rownd.Xamarin
             ManageAccount(null);
         }
 
-        public void ManageAccount(RowndManageAccountOpts opts)
+        public void ManageAccount(RowndManageAccountOpts? opts)
         {
             Task.Run(async () =>
             {
@@ -155,12 +150,12 @@ namespace Rownd.Xamarin
         }
 
         #region Internal methods
-        internal async void DisplayHub(HubPageSelector page, RowndSignInJsOptions opts = null)
+        internal async void DisplayHub(HubPageSelector page, RowndSignInJsOptions? opts = null)
         {
-            await Device.InvokeOnMainThreadAsync(async () =>
+            await MainThread.InvokeOnMainThreadAsync(async () =>
             {
                 // If the modal stack already includes a bottom sheet page, don't show another
-                if (Application.Current.MainPage.Navigation.ModalStack.FirstOrDefault(el => el is HubBottomSheetPage) != null)
+                if (Application.Current?.MainPage?.Navigation.ModalStack.FirstOrDefault(el => el is HubBottomSheetPage) != null)
                 {
                     return;
                 }

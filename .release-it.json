@@ -15,11 +15,7 @@
     "@release-it/bumper": {
       "in": "VERSION",
       "out": [
-        "Rownd/Rownd.Xamarin.csproj",
-        "Rownd.Android/Rownd.Xamarin.Android.csproj",
-        "Rownd.Android/Properties/AssemblyInfo.cs",
-        "Rownd.iOS/Rownd.Xamarin.iOS.csproj",
-        "Rownd.iOS/Properties/AssemblyInfo.cs",
+        "Rownd/Rownd.Maui.csproj",
         "Rownd/README.md",
         "VERSION"
       ]
@@ -28,14 +24,10 @@
   "hooks": {
     "after:bump": [
       "mkdir -p pack",
-      "cd Rownd && dotnet pack --configuration Release -o ../pack --include-source --include-symbols",
-      "cd Rownd.Android && msbuild /p:Configuration=Release && nuget pack -prop configuration=release -OutputDirectory ../pack -Version ${version}",
-      "cd Rownd.iOS && msbuild /p:Configuration=Release && nuget pack -prop configuration=release -OutputDirectory ../pack -Version ${version}"
+      "cd Rownd && dotnet pack --configuration Release -o ../pack --include-source --include-symbols"
     ],
     "after:github:release": [
-      "nuget push ./pack/Rownd.Xamarin.iOS.${version}.nupkg -src https://nuget.org",
-      "nuget push ./pack/Rownd.Xamarin.Android.${version}.nupkg -src https://nuget.org",
-      "nuget push ./pack/Rownd.Xamarin.${version}.nupkg -src https://nuget.org"
+      "nuget push ./pack/Rownd.Maui.${version}.nupkg -src https://nuget.org"
     ]
   }
 }

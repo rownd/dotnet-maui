@@ -1,7 +1,7 @@
 ﻿using System;
-using Rownd.Xamarin.Models.Domain;
+using Rownd.Maui.Models.Domain;
 
-namespace Rownd.Xamarin.Models
+namespace Rownd.Maui.Models
 {
     public class StateActions
     {

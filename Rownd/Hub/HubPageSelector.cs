@@ -1,5 +1,5 @@
 ﻿using System;
-namespace Rownd.Xamarin.Hub
+namespace Rownd.Maui.Hub
 {
     public enum HubPageSelector
     {

@@ -2,7 +2,7 @@
 using JsonKnownTypes;
 using Newtonsoft.Json;
 
-namespace Rownd.Xamarin.Hub.HubMessage
+namespace Rownd.Maui.Hub.HubMessage
 {
     [JsonKnownThisType("authentication")]
     public class PayloadAuthenticated : PayloadBase

@@ -2,9 +2,9 @@
 using System.Threading.Tasks;
 using RestSharp;
 using RestSharp.Authenticators;
-using Rownd.Xamarin.Models.Repos;
+using Rownd.Maui.Models.Repos;
 
-namespace Rownd.Xamarin.Core
+namespace Rownd.Maui.Core
 {
     public class ApiAuthenticator : IAuthenticator
     {

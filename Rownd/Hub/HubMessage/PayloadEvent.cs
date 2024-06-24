@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using JsonKnownTypes;
 using Newtonsoft.Json;
 
-namespace Rownd.Xamarin.Hub.HubMessage
+namespace Rownd.Maui.Hub.HubMessage
 {
     [JsonKnownThisType("event")]
     public class PayloadEvent : PayloadBase

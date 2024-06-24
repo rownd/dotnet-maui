@@ -1,11 +1,12 @@
 ﻿<?xml version="1.0" encoding="UTF-8" ?>
 <ContentPage
-    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+    
     x:Class="Rownd.Controls.HubBottomSheetPage"
     xmlns:controls="clr-namespace:Rownd.Controls"
-    xmlns:rownd="clr-namespace:Rownd.Xamarin.Hub;assembly=Rownd.Xamarin"
+    xmlns:rownd="clr-namespace:Rownd.Maui.Hub;assembly=Rownd.Maui"
+    xmlns:compatibility="clr-namespace:Microsoft.Maui.Controls.Compatibility;assembly=Microsoft.Maui.Controls"
     BackgroundColor="Transparent"
 
     x:Name="BottomSheetRef"
@@ -13,14 +14,14 @@
 >
 
     <ContentPage.Content>
-        <RelativeLayout>
+        <compatibility:RelativeLayout>
             <BoxView Color="Black"
                  Opacity="0"
                  BackgroundColor="Black"
                  x:Name="Backdrop"
-                 RelativeLayout.WidthConstraint="{ConstraintExpression
+                 compatibility:RelativeLayout.WidthConstraint="{compatibility:ConstraintExpression
                         Type=RelativeToParent,Property=Width,Factor=1,Constant=0}"
-                 RelativeLayout.HeightConstraint="{ConstraintExpression
+                 compatibility:RelativeLayout.HeightConstraint="{compatibility:ConstraintExpression
                         Type=RelativeToParent,Property=Height,Factor=1,Constant=0}"
             >
                 <BoxView.GestureRecognizers>
@@ -29,9 +30,9 @@
             </BoxView>
 
             <controls:PanContainer x:Name="PanContainerRef"
-                                   RelativeLayout.WidthConstraint="{ConstraintExpression
+                                   compatibility:RelativeLayout.WidthConstraint="{compatibility:ConstraintExpression
                                         Type=RelativeToParent,Property=Width,Factor=1,Constant=0}"
-                                   RelativeLayout.HeightConstraint="{ConstraintExpression
+                                   compatibility:RelativeLayout.HeightConstraint="{compatibility:ConstraintExpression
                                         Type=RelativeToParent,Property=Height,Factor=1,Constant=0}"
                                    >
 
@@ -40,7 +41,7 @@
                     <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped" />
                 </controls:PanContainer.GestureRecognizers>
 
-                <RelativeLayout>
+                <compatibility:RelativeLayout>
                     <Frame
                         x:Name="Sheet"
                         BackgroundColor="{Binding SheetBackgroundColor}"
@@ -49,26 +50,26 @@
                         IsClippedToBounds="True"
                         HasShadow="True"
                         Padding="0"
-                        RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent,
+                        compatibility:RelativeLayout.YConstraint="{compatibility:ConstraintExpression Type=RelativeToParent,
                             Property=Height,Factor=1,Constant=0}"
-                        RelativeLayout.WidthConstraint="{ConstraintExpression
+                        compatibility:RelativeLayout.WidthConstraint="{compatibility:ConstraintExpression
                             Type=RelativeToParent,Property=Width,Factor=1,Constant=0}"
-                        RelativeLayout.HeightConstraint="{ConstraintExpression
+                        compatibility:RelativeLayout.HeightConstraint="{compatibility:ConstraintExpression
                             Type=RelativeToParent,Property=Height,Factor=1,Constant=0}"
                     >
-                        <RelativeLayout IsClippedToBounds="True" x:Name="WebViewContainer">
+                        <compatibility:RelativeLayout IsClippedToBounds="True" x:Name="WebViewContainer">
                             <rownd:HubWebView x:Name="Webview"
                             VerticalOptions="FillAndExpand"
-                            RelativeLayout.WidthConstraint="{ConstraintExpression
+                            compatibility:RelativeLayout.WidthConstraint="{compatibility:ConstraintExpression
                                 Type=RelativeToParent,Property=Width,Factor=1,Constant=0}"
-                            RelativeLayout.HeightConstraint="{ConstraintExpression
+                            compatibility:RelativeLayout.HeightConstraint="{compatibility:ConstraintExpression
                                 Type=RelativeToParent,Property=Height,Factor=1,Constant=0}"
                         />
 
                             <StackLayout
                             BackgroundColor="Transparent"
                             HorizontalOptions="Center"
-                            RelativeLayout.WidthConstraint="{ConstraintExpression
+                            compatibility:RelativeLayout.WidthConstraint="{compatibility:ConstraintExpression
                                 Type=RelativeToParent,Property=Width,Factor=1,Constant=0}"
                         >
                                 <BoxView
@@ -86,7 +87,7 @@
                             HorizontalOptions="Center"
                             VerticalOptions="Center"
                             BackgroundColor="Transparent"
-                            RelativeLayout.WidthConstraint="{ConstraintExpression
+                            compatibility:RelativeLayout.WidthConstraint="{compatibility:ConstraintExpression
                                 Type=RelativeToParent,Property=Width,Factor=1,Constant=0}"
                         >
                                 <ActivityIndicator
@@ -97,11 +98,11 @@
                             />
                             </StackLayout>
 
-                        </RelativeLayout>
+                        </compatibility:RelativeLayout>
                     </Frame>
-                </RelativeLayout>
+                </compatibility:RelativeLayout>
             </controls:PanContainer>
-        </RelativeLayout>
+        </compatibility:RelativeLayout>
     </ContentPage.Content>
 </ContentPage>
 

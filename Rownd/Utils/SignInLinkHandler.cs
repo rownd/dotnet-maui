@@ -2,13 +2,14 @@
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using RestSharp;
-using Rownd.Xamarin.Core;
-using Rownd.Xamarin.Models;
-using Rownd.Xamarin.Models.Domain;
-using Rownd.Xamarin.Models.Repos;
-using Xamarin.Forms;
+using Rownd.Maui.Core;
+using Rownd.Maui.Models;
+using Rownd.Maui.Models.Domain;
+using Rownd.Maui.Models.Repos;
+using Microsoft.Maui.Controls;
+using Microsoft.Maui;
 
-namespace Rownd.Xamarin.Utils
+namespace Rownd.Maui.Utils
 {
     public class SignInLinkHandler
     {
@@ -73,7 +74,7 @@ namespace Rownd.Xamarin.Utils
                             RefreshToken = response.Data.RefreshToken
                         }
                     })
-                );
+);
             }
             catch (Exception ex)
             {

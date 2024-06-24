@@ -1,14 +1,13 @@
-﻿using System;
-using System.Threading.Tasks;
-using Rownd.Xamarin.Controls;
-using Rownd.Xamarin.Core;
-using Rownd.Xamarin.Hub;
-using Rownd.Xamarin.Utils;
-using Xamarin.Forms;
-using Xamarin.Forms.PlatformConfiguration;
-using Xamarin.Forms.PlatformConfiguration.AndroidSpecific;
-using Xamarin.Forms.PlatformConfiguration.iOSSpecific;
-using Xamarin.Forms.Xaml;
+﻿using Microsoft.Maui.Controls.PlatformConfiguration;
+using Microsoft.Maui.Controls.PlatformConfiguration.AndroidSpecific;
+using Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;
+using Rownd.Maui.Controls;
+using Rownd.Maui.Core;
+using Rownd.Maui.Hub;
+
+#if ANDROID
+using Rownd.Maui.Android;
+#endif
 
 namespace Rownd.Controls
 {
@@ -82,7 +81,7 @@ namespace Rownd.Controls
             nameof(SheetBackgroundColor),
             typeof(Color),
             typeof(HubBottomSheetPage),
-            defaultValue: Color.White,
+            defaultValue: Colors.White,
             defaultBindingMode: BindingMode.OneWay
         );
 
@@ -103,7 +102,7 @@ namespace Rownd.Controls
             nameof(PrimaryForegroundColor),
             typeof(Color),
             typeof(HubBottomSheetPage),
-            defaultValue: Color.FromHex("#333333"),
+            defaultValue: Color.FromArgb("#333333"),
             defaultBindingMode: BindingMode.OneWay
         );
 
@@ -123,7 +122,7 @@ namespace Rownd.Controls
 
         private bool isPanning = false;
 
-        public event EventHandler OnDismiss;
+        public event EventHandler? OnDismiss;
 
         public HubBottomSheetPage()
         {
@@ -132,7 +131,7 @@ namespace Rownd.Controls
             Setup();
         }
 
-        public HubWebView GetHubWebView()
+        internal HubWebView GetHubWebView()
         {
             return Webview;
         }
@@ -153,8 +152,12 @@ namespace Rownd.Controls
         protected override void OnAppearing()
         {
             base.OnAppearing();
-            this.UseWindowSoftInputModeAdjust(WindowSoftInputModeAdjust.Resize);
-            BackgroundColor = new Color(0, 0, 0, 0.01);
+            if (DeviceInfo.Platform == DevicePlatform.Android)
+            {
+                this.UseWindowSoftInputModeAdjust(WindowSoftInputModeAdjust.Resize);
+            }
+
+            BackgroundColor = new Color(0, 0, 0, 0.01F);
 
             _ = AnimateIn();
         }
@@ -163,7 +166,7 @@ namespace Rownd.Controls
         {
             base.OnDisappearing();
             this.ResetWindowSoftInputModeAdjust();
-            OnDismiss(this, null);
+            OnDismiss?.Invoke(this, new EventArgs());
         }
 
         private readonly uint duration = 300;
@@ -268,20 +271,27 @@ namespace Rownd.Controls
             }
 
             await AnimateOut();
-            await global::Xamarin.Forms.Application.Current.MainPage.Navigation.PopModalAsync(false);
+
+            if (Microsoft.Maui.Controls.Application.Current?.MainPage != null)
+            {
+                await Microsoft.Maui.Controls.Application.Current.MainPage.Navigation.PopModalAsync(false);
+            }
         }
 
         private double GetProportionCoordinate(double proportion)
         {
             Thickness insets = default;
-            if (Device.RuntimePlatform == Device.iOS)
+
+            // TODO Xamarin.Forms.Device.RuntimePlatform is no longer supported. Use Microsoft.Maui.Devices.DeviceInfo.Platform instead. For more details see https://learn.microsoft.com/en-us/dotnet/maui/migration/forms-projects#device-changes
+            if (DeviceInfo.Platform == DevicePlatform.iOS)
             {
                 insets = On<iOS>().SafeAreaInsets();
             }
-            else if (Device.RuntimePlatform == Device.Android)
+            else if (OperatingSystem.IsAndroid())
             {
-                var platformUtilsSvc = DependencyService.Get<IPlatformUtils>();
-                insets = platformUtilsSvc.GetWindowSafeArea();
+#if ANDROID
+                insets = PlatformUtils.GetWindowSafeArea();
+#endif
             }
 
             return proportion * (Height - insets.Top);

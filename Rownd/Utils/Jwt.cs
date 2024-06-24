@@ -5,9 +5,9 @@ using JWT;
 using JWT.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
-using Rownd.Xamarin.Core;
+using Rownd.Maui.Core;
 
-namespace Rownd.Xamarin.Utils
+namespace Rownd.Maui.Utils
 {
     public class Jwt
     {

@@ -5,9 +5,9 @@ using System.Web;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
-using Rownd.Xamarin.Models.Repos;
+using Rownd.Maui.Models.Repos;
 
-namespace Rownd.Xamarin.Core
+namespace Rownd.Maui.Core
 {
     public class Config
     {

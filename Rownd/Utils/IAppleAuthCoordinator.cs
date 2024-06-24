@@ -1,7 +1,7 @@
 ﻿using System;
-using Rownd.Xamarin.Models.Repos;
+using Rownd.Maui.Models.Repos;
 
-namespace Rownd.Xamarin.Utils
+namespace Rownd.Maui.Utils
 {
     public interface IAppleAuthCoordinator
     {
