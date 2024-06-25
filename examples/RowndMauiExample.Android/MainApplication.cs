@@ -1,11 +1,7 @@
-﻿using System;
-using Android.App;
+﻿using Android.App;
 using Android.Runtime;
-using Microsoft.Maui;
-using Microsoft.Maui.Hosting;
-using RowndMauiExample;
 
-namespace RowndMauiExampleNew.Android
+namespace RowndMauiExample.Android
 {
     [Application]
     public class MainApplication : MauiApplication

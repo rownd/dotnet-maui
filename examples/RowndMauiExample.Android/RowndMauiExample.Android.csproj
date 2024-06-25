@@ -14,12 +14,15 @@
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\Rownd\Rownd.Maui.csproj" />
-    <ProjectReference Include="..\examples\RowndMauiExample\RowndMauiExample.csproj" />
+    <ProjectReference Include="..\RowndMauiExample\RowndMauiExample.csproj" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="Resources\drawable\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\drawable\" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Maui.Controls" Version="8.0.60" />
   </ItemGroup>
 </Project>
