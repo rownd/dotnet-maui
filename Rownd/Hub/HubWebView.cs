@@ -8,14 +8,6 @@ using Rownd.Maui.Models.Domain;
 using Rownd.Maui.Models.Repos;
 using Rownd.Maui.Utils;
 
-//#if IOS
-//using PlatformView = Rownd.Maui.Hub.HubWebViewHandler;
-//#elif ANDROID
-//using PlatformView = Rownd.Maui.Hub.HubWebView;
-//#else
-//using PlatformView = System.Object;
-//#endif
-
 namespace Rownd.Maui.Hub
 {
     internal partial class HubWebView : WebView, IBottomSheetChild
@@ -30,8 +22,11 @@ namespace Rownd.Maui.Hub
 
         private partial Task InitializeWebView();
 
+        private partial void NavigateCore(string url);
+
 #if !ANDROID && !IOS && !MACCATALYST && !WINDOWS
         private partial Task InitializeWebView() => throw null!;
+        private partial void NavigateCore(string url) => throw null!;
 #endif
 
         public HubWebView()
@@ -58,7 +53,7 @@ namespace Rownd.Maui.Hub
         internal async void RenderHub()
         {
             var url = await config.GetHubLoaderUrl();
-            await Dispatcher.DispatchAsync(async () =>
+            MainThread.BeginInvokeOnMainThread(async () =>
             {
                 var connectionState = Connectivity.NetworkAccess;
                 if (connectionState != NetworkAccess.Internet)
@@ -75,11 +70,11 @@ namespace Rownd.Maui.Hub
 
                 if (Source == null)
                 {
-                    Source = url;
+                    NavigateCore(url);
                 }
                 else if (Source is UrlWebViewSource source && source.Url != url)
                 {
-                    Source = url;
+                    NavigateCore(url);
                     TriggerHub();
                 }
                 else
@@ -144,7 +139,7 @@ if (typeof rownd !== 'undefined') {{
 
         public void HandleHubMessage(string message)
         {
-            Dispatcher.DispatchAsync(async () =>
+            MainThread.BeginInvokeOnMainThread(async () =>
             {
                 Console.WriteLine($"Received message: {message}");
                 try

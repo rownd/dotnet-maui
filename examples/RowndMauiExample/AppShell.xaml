@@ -2,7 +2,6 @@
 <Shell xmlns="http://schemas.microsoft.com/dotnet/2021/maui" 
        xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
        xmlns:local="clr-namespace:RowndMauiExample.Views"
-       xmlns:bottomSheet="clr-namespace:BottomSheetXF.Implementations;assembly=BottomSheetXF"
        Title="RowndMauiExample"
        x:Class="RowndMauiExample.AppShell">
 
@@ -30,9 +29,18 @@
         </ResourceDictionary>
     </Shell.Resources>
 
+    <!--<ShellContent
+        Title="Home"
+        ContentTemplate="{DataTemplate local:AboutPage}"
+        Route="MainPage" />-->
+
     <TabBar>
-        <ShellContent Title="About" Icon="icon_about.png" Route="AboutPage" ContentTemplate="{DataTemplate local:AboutPage}" />
-        <ShellContent Title="Browse" Icon="icon_feed.png" ContentTemplate="{DataTemplate local:ItemsPage}" />
+        <Tab Title="Home" Icon="icon_about">
+            <ShellContent Title="Home" Route="MainPage" ContentTemplate="{DataTemplate local:AboutPage}" />
+        </Tab>
+        <Tab Title="Browse" Icon="icon_feed">
+            <ShellContent Title="Browse" Route="BrowsePage" ContentTemplate="{DataTemplate local:ItemsPage}" />
+        </Tab>
     </TabBar>
 
     <!--

@@ -28,6 +28,7 @@ namespace RowndMauiExample
 
         protected override void OnStart()
         {
+            
         }
 
         protected override void OnSleep()

@@ -1,5 +1,6 @@
 using CommunityToolkit.Maui;
 using Microsoft.Maui.Controls.Compatibility.Hosting;
+using Rownd.Maui.Utils;
 
 namespace RowndMauiExample;
 
@@ -10,7 +11,8 @@ public static class MauiProgramExtensions
         builder
             .UseMauiCompatibility()
             .UseMauiApp<App>()
-            .UseMauiCommunityToolkit();
+            .UseMauiCommunityToolkit()
+            .UseRownd();
 
         // TODO: Add the entry points to your Apps here.
         // See also: https://learn.microsoft.com/dotnet/maui/fundamentals/app-lifecycle

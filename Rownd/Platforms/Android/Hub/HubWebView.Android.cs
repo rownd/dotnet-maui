@@ -46,5 +46,10 @@ namespace Rownd.Maui.Hub
                 Bottom = PixelsToDp(navInsets.Bottom)
             };
         }
+
+        private partial void NavigateCore(string url)
+        {
+            PlatformWebView.LoadUrl(url);
+        }
     }
 }

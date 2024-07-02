@@ -82,12 +82,12 @@ namespace Rownd.Maui.Models.Repos
                     Shared.Rownd.SignOut();
                 }
 
-                Device.BeginInvokeOnMainThread(() =>
+                MainThread.BeginInvokeOnMainThread(() =>
                     stateRepo.Store.Dispatch(new StateActions.SetAuthState()
                     {
                         AuthState = response.Data
                     })
-);
+                );
 
                 return response.Data;
             }
@@ -126,19 +126,19 @@ namespace Rownd.Maui.Models.Repos
                         stateRepo.Store.State.Auth.AccessToken = result.AccessToken;
                         stateRepo.Store.State.Auth.RefreshToken = result.RefreshToken;
 
-                        Device.BeginInvokeOnMainThread(() =>
+                        MainThread.BeginInvokeOnMainThread(() =>
                             stateRepo.Store.Dispatch(new StateActions.SetAuthState()
                             {
                                 AuthState = result
                             })
-);
+                        );
 
                         return result;
                     }
                     catch (RefreshTokenExpiredException ex)
                     {
                         Console.WriteLine($"Failed to refresh token. It was likely expired. User will be signed out. Reason: {ex}");
-                        Device.BeginInvokeOnMainThread(() => Shared.Rownd.SignOut());
+                        MainThread.BeginInvokeOnMainThread(() => Shared.Rownd.SignOut());
                         return null;
                     }
                     catch (Exception ex)

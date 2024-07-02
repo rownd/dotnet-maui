@@ -1,25 +1,22 @@
-﻿using System;
-using System.Threading.Tasks;
-using Microsoft.Extensions.DependencyInjection;
-using RestSharp;
+﻿using RestSharp;
 using Rownd.Maui.Core;
 using Rownd.Maui.Models;
 using Rownd.Maui.Models.Domain;
 using Rownd.Maui.Models.Repos;
-using Microsoft.Maui.Controls;
-using Microsoft.Maui;
 
 namespace Rownd.Maui.Utils
 {
-    public class SignInLinkHandler
+    internal partial class SignInLinkHandler
     {
-        public SignInLinkHandler()
-        {
-        }
+        private partial Task<string?> HandleSignInLink();
+
+#if !ANDROID && !IOS && !MACCATALYST && !WINDOWS
+        private partial Task<string?> HandleSignInLink() => throw null!;
+#endif
 
         public static SignInLinkHandler Get()
         {
-            return Shared.ServiceProvider.GetService<SignInLinkHandler>();
+            return Shared.ServiceProvider.GetRequiredService<SignInLinkHandler>();
         }
 
         public async void HandleSignInLinkIfPresent()
@@ -34,10 +31,9 @@ namespace Rownd.Maui.Utils
             await AuthenticateWithSignInLink(signInLink);
         }
 
-        private async Task<string> GetSignInLinkIfPresent()
+        private async Task<string?> GetSignInLinkIfPresent()
         {
-            var signInSvc = DependencyService.Get<ISignInLinkHandler>();
-            return await signInSvc.HandleSignInLink();
+            return await HandleSignInLink();
         }
 
         private async Task AuthenticateWithSignInLink(string url)
@@ -65,7 +61,7 @@ namespace Rownd.Maui.Utils
                 }
 
                 var stateRepo = StateRepo.Get();
-                Device.BeginInvokeOnMainThread(() =>
+                MainThread.BeginInvokeOnMainThread(() =>
                     stateRepo.Store.Dispatch(new StateActions.SetAuthState()
                     {
                         AuthState = new AuthState
@@ -74,7 +70,7 @@ namespace Rownd.Maui.Utils
                             RefreshToken = response.Data.RefreshToken
                         }
                     })
-);
+                );
             }
             catch (Exception ex)
             {

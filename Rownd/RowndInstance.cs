@@ -14,6 +14,7 @@ namespace Rownd.Maui
     {
         private HubBottomSheetPage? hubBottomSheet = null;
         private static RowndInstance inst;
+        private AppleAuthenticatorHandler appleAuthHandler;
 
         internal StateRepo State { get; private set; }
         internal AuthRepo Auth { get; private set; }
@@ -35,20 +36,15 @@ namespace Rownd.Maui
         {
             inst = this;
             Shared.Init(this, app, config);
-            Config = Shared.ServiceProvider.GetService<Config>();
+            Config = Shared.ServiceProvider.GetRequiredService<Config>();
             State = StateRepo.Get();
             Auth = AuthRepo.Get();
             User = UserRepo.GetInstance();
-            State.Setup();
 
-            // TODO Xamarin.Forms.Device.RuntimePlatform is no longer supported. Use Microsoft.Maui.Devices.DeviceInfo.Platform instead. For more details see https://learn.microsoft.com/en-us/dotnet/maui/migration/forms-projects#device-changes
-            if (DeviceInfo.Platform == DevicePlatform.iOS)
-            {
-                DependencyService.Get<IAppleAuthCoordinator>().Inject(this, Auth);
-            }
+            appleAuthHandler = new AppleAuthenticatorHandler(this, Auth);
         }
 
-        public static RowndInstance GetInstance(Application app, Config config = null)
+        public static RowndInstance GetInstance(Application app, Config? config = null)
         {
             inst ??= new RowndInstance(app, config);
 
@@ -57,9 +53,11 @@ namespace Rownd.Maui
 
         public RowndInstance Configure(string appKey)
         {
-            var config = Shared.ServiceProvider.GetService<Config>();
+            var config = Shared.ServiceProvider.GetRequiredService<Config>();
 
             config.AppKey = appKey;
+
+            State.Setup();
 
             return inst;
         }
@@ -74,11 +72,8 @@ namespace Rownd.Maui
             switch (with)
             {
                 case SignInMethod.Apple:
-                    Console.WriteLine("RequestSignIn(.apple)");
-                    var appleAuthCoord = DependencyService.Get<IAppleAuthCoordinator>();
-
                     Console.WriteLine("RequestSignIn(.apple): call .SignIn()");
-                    appleAuthCoord.SignIn();
+                    appleAuthHandler.SignIn(null);
                     break;
 
                 default:
@@ -169,6 +164,11 @@ namespace Rownd.Maui
                     };
                 }
 
+                if (Application.Current?.MainPage == null)
+                {
+                    return;
+                }
+
                 await Application.Current.MainPage.Navigation.PushModalAsync(hubBottomSheet, false);
 
                 var webView = hubBottomSheet.GetHubWebView();
@@ -196,8 +196,8 @@ namespace Rownd.Maui
 
         public class RowndEventArgs : EventArgs
         {
-            public string Event { get; set; }
-            public Dictionary<string, dynamic> Data { get; set; }
+            required public string Event { get; set; }
+            public Dictionary<string, dynamic> Data { get; set; } = new();
         }
 
         #endregion

@@ -13,7 +13,7 @@ namespace Rownd.Maui.Core
 
         public static ApiClient Get()
         {
-            return Shared.ServiceProvider.GetService<ApiClient>();
+            return Shared.ServiceProvider.GetRequiredService<ApiClient>();
         }
 
         public ApiClient()

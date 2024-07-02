@@ -49,7 +49,7 @@ namespace Rownd.Maui.Models.Repos
                 var request = new RestRequest($"me/applications/{stateRepo.Store.State.AppConfig.Id}/data")
                     .AddBody(user);
                 var response = await apiClient.Client.ExecutePutAsync<UserState>(request);
-                Device.BeginInvokeOnMainThread(() =>
+                MainThread.BeginInvokeOnMainThread(() =>
                     stateRepo.Store.Dispatch(new StateActions.SetUserState()
                     {
                         UserState = response.Data
@@ -70,7 +70,7 @@ namespace Rownd.Maui.Models.Repos
             try
             {
                 var response = await apiClient.Client.GetJsonAsync<UserState>($"me/applications/{stateRepo.Store.State.AppConfig.Id}/data");
-                Device.BeginInvokeOnMainThread(() =>
+                MainThread.BeginInvokeOnMainThread(() =>
                     stateRepo.Store.Dispatch(new StateActions.SetUserState()
                     {
                         UserState = response

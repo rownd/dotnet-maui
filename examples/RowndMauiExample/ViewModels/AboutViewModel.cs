@@ -42,7 +42,10 @@ namespace RowndMauiExample.ViewModels
             {
                 RowndState.User.Data.TryGetValue("first_name", out var firstName);
                 string result = await page.DisplayPromptAsync("Question 1", "What's your name?", initialValue: firstName);
-                Rownd.User.Set("first_name", result);
+                if (result != null)
+                {
+                    Rownd.User.Set("first_name", result);
+                }
             });
             Rownd.Store.Select().Subscribe((state) =>
             {

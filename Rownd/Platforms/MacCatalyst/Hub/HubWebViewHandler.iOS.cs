@@ -6,7 +6,7 @@ using WebKit;
 
 namespace Rownd.Maui.Hub
 {
-    internal partial class HubWebViewHandler
+    partial class HubWebViewHandler
     {
         private WKUserContentController userController;
         private bool isKeyboardStateChanging = false;

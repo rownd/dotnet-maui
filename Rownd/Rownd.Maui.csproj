@@ -63,12 +63,12 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="RestSharp" Version="110.2.0" />
-		<PackageReference Include="JsonKnownTypes" Version="0.5.5" />
+		<PackageReference Include="RestSharp" Version="111.3.0" />
+		<PackageReference Include="JsonKnownTypes" Version="0.6.0" />
 		<PackageReference Include="JsonSubTypes" Version="2.0.1" />
 		<PackageReference Include="JWT" Version="10.1.1" />
 		<PackageReference Include="System.Reactive" Version="6.0.0" />
-		<PackageReference Include="RestSharp.Serializers.NewtonsoftJson" Version="110.2.0" />
+		<PackageReference Include="RestSharp.Serializers.NewtonsoftJson" Version="111.3.0" />
 		<PackageReference Include="HttpTracer" Version="2.1.1" />
 		<PackageReference Include="ReduxSimple" Version="3.7.0" />
 		<PackageReference Include="GuerrillaNtp" Version="3.1.0" />
@@ -93,23 +93,12 @@
 		<None Include="assets/rownd-xamarin-icon.png" Pack="true" PackagePath="assets" />
 		<None Include="README.md" Pack="true" PackagePath="\" />
 		<None Remove="Hub\" />
-		<!--   <None Remove="Platforms\" />
-    <None Remove="Platforms\Android\" />
-    <None Remove="Platforms\Android\Resources\Resource.designer.cs" />
-    <None Remove="Platforms\Android\Resources\values\strings.xml" />
-    <None Remove="Platforms\Android\Resources\" />
-    <None Remove="Platforms\Android\Boot.cs" />
-    <None Remove="Platforms\Android\PlatformUtils.cs" />
-    <None Remove="Platforms\Android\SignInLinkHandler.cs" />
-    <None Remove="Platforms\Android\Hub\CustomLayoutListener.cs" />
-    <None Remove="Platforms\Android\Hub\HubWebViewRenderer.cs" />
-    <None Remove="Platforms\Android\Hub\JSBridge.cs" />
-    <None Remove="Platforms\Android\Hub\" />
-    <None Remove="Platforms\Android\assets\rownd-android-icon.png" />
-    <None Remove="Platforms\Android\assets\" />-->
 		<None Remove="Platforms\iOS\" />
 		<None Remove="Platforms\iOS\assets\rownd-apple-icon.png" />
 		<None Remove="Platforms\MacCatalyst\" />
+		<None Remove="Platforms\iOS\Utils\" />
+		<None Remove="Platforms\MacCatalyst\Utils\" />
+		<None Remove="Platforms\Android\Utils\" />
 	</ItemGroup>
 	<ItemGroup>
 		<Folder Include="Core\" />
@@ -126,6 +115,9 @@
 		<Folder Include="Platforms\Android\assets\" />
 		<Folder Include="Platforms\iOS\" />
 		<Folder Include="Platforms\MacCatalyst\" />
+		<Folder Include="Platforms\iOS\Utils\" />
+		<Folder Include="Platforms\MacCatalyst\Utils\" />
+		<Folder Include="Platforms\Android\Utils\" />
 	</ItemGroup>
 	<!-- Android -->
 	<ItemGroup Condition="$(TargetFramework.StartsWith('net')) == true AND $(TargetFramework.Contains('-android')) != true">
@@ -139,6 +131,7 @@
 	<!-- iOS -->
 	<ItemGroup Condition="$(TargetFramework.StartsWith('net8.0-ios')) != true">
 		<Compile Remove="**\iOS\**\*.cs" />
+    <None Include="**\iOS\**\*.cs" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder)" />
 	</ItemGroup>
 	<!-- Mac Catalyst -->
 	<ItemGroup Condition="$(TargetFramework.StartsWith('net8.0-maccatalyst')) != true">

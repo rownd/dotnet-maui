@@ -1,12 +1,14 @@
 ﻿using System.Drawing;
+using CoreGraphics;
 using Foundation;
+using Microsoft.Maui.Handlers;
 using Rownd.Maui.Core;
 using UIKit;
 using WebKit;
 
 namespace Rownd.Maui.Hub
 {
-    internal partial class HubWebViewHandler
+    partial class HubWebViewHandler : WebViewHandler
     {
         private WKUserContentController userController;
         private bool isKeyboardStateChanging = false;
@@ -40,13 +42,12 @@ namespace Rownd.Maui.Hub
         {
             var config = new WKWebViewConfiguration();
 
-            var platformView = new HubWKWebView(RectangleF.Empty, config);
+            var platformView = new HubWKWebView(RectangleF.Empty, this, config);
 
             userController = config.UserContentController;
             userController.AddScriptMessageHandler(new HubMessageReceiver((HubWebView)VirtualView), "rowndIosSDK");
             userController.AddScriptMessageHandler(new JsLoggingToConsole(), "rowndDeviceLogger");
 
-            platformView.NavigationDelegate = new WebNavigationDelegate(platformView.NavigationDelegate, this);
             platformView.ScrollView.ScrollEnabled = false;
             platformView.ScrollView.Delegate = new ScrollDelegate(this);
             platformView.CustomUserAgent = Constants.DEFAULT_WEB_USER_AGENT;
@@ -62,7 +63,7 @@ namespace Rownd.Maui.Hub
                 Bottom = bottomPadding + ScreenInsets.Top
             };
 
-            VirtualView.Focus();
+            ListenForKeyboardNotifications();
 
             //// Legacy Developer Extras setting.
             var enableWebDevTools = ((HubWebView)VirtualView).EnableWebDevTools;
@@ -76,6 +77,48 @@ namespace Rownd.Maui.Hub
             }
 
             return platformView;
+        }
+
+        protected override void ConnectHandler(WKWebView platformView)
+        {
+            base.ConnectHandler(platformView);
+            platformView.NavigationDelegate = new WebNavigationDelegate(platformView.NavigationDelegate, this);
+        }
+
+        protected override void DisconnectHandler(WKWebView platformView)
+        {
+            base.DisconnectHandler(platformView);
+            platformView.NavigationDelegate = null!;
+        }
+
+        private void ListenForKeyboardNotifications()
+        {
+            var hubWebView = (HubWebView)VirtualView;
+
+            // Handle keyboard showing notifications
+            UIKeyboard.Notifications.ObserveWillShow((sender, args) =>
+            {
+                isKeyboardStateChanging = true;
+                CGRect keyboardFrame = args.FrameEnd;
+                _ = hubWebView.HandleKeyboardStateChange(true, keyboardFrame.Height);
+            });
+
+            UIKeyboard.Notifications.ObserveDidShow((sender, args) =>
+            {
+                isKeyboardStateChanging = false;
+            });
+
+            // Handle keyboard hide notifications
+            UIKeyboard.Notifications.ObserveWillHide((sender, args) =>
+            {
+                isKeyboardStateChanging = true;
+                _ = hubWebView.HandleKeyboardStateChange(false, 0);
+            });
+
+            UIKeyboard.Notifications.ObserveDidHide((sender, args) =>
+            {
+                isKeyboardStateChanging = false;
+            });
         }
 
         private class ScrollDelegate : UIScrollViewDelegate
@@ -106,7 +149,7 @@ namespace Rownd.Maui.Hub
         }
 
         #region WKNavigationDelegate
-        private class WebNavigationDelegate : WKNavigationDelegate
+        private class WebNavigationDelegate : NSObject, IWKNavigationDelegate
         {
             private readonly IWKNavigationDelegate _defaultDelegate;
             private HubWebViewHandler _handler;
@@ -119,22 +162,23 @@ namespace Rownd.Maui.Hub
 
             // Be sure to implement ALL methods with are implemented by the CustomWebViewNavigationDelete, which is a private class, so we can't override it simply
             // https://github.com/xamarin/Xamarin.Forms/blob/4.6.0/Xamarin.Forms.Platform.iOS/Renderers/WkWebViewRenderer.cs
-            public override void DidFailNavigation(WKWebView webView, WKNavigation navigation, NSError error)
+            [Export("webView:didFailNavigation:withError:")]
+            public void DidFailNavigation(WKWebView webView, WKNavigation navigation, NSError error)
             {
                 _defaultDelegate.DidFailNavigation(webView, navigation, error);
             }
 
-            public override void DidFinishNavigation(WKWebView webView, WKNavigation navigation)
+            [Export("webView:didFinishNavigation:")]
+            public void DidFinishNavigation(WKWebView webView, WKNavigation navigation)
             {
                 _defaultDelegate.DidFinishNavigation(webView, navigation);
             }
 
-            public override void DidStartProvisionalNavigation(WKWebView webView, WKNavigation navigation)
-            {
-                _defaultDelegate.DidStartProvisionalNavigation(webView, navigation);
-            }
+            [Export("webView:didStartProvisionalNavigation:")]
+            public virtual void DidStartProvisionalNavigation(WKWebView webView, WKNavigation navigation) { }
 
-            public override async void DecidePolicy(WKWebView webView, WKNavigationAction navigationAction, Action<WKNavigationActionPolicy> decisionHandler)
+            [Export("webView:decidePolicyForNavigationAction:decisionHandler:")]
+            public async void DecidePolicy(WKWebView webView, WKNavigationAction navigationAction, Action<WKNavigationActionPolicy> decisionHandler)
             {
                 if (navigationAction.NavigationType == WKNavigationType.LinkActivated)
                 {

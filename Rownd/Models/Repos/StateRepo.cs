@@ -32,10 +32,17 @@ namespace Rownd.Maui.Models.Repos
         public void Setup()
         {
             LoadState();
-            var appConfigRepo = AppConfigRepo.Get();
+            SetupAsync();
+        }
+
+        private void SetupAsync()
+        {
             Task.Run(async () =>
             {
+                var appConfigRepo = AppConfigRepo.Get();
+                Console.WriteLine("Going to load app config");
                 await appConfigRepo.LoadAppConfigAsync();
+                Console.WriteLine("Done loading app config");
 
                 if (Store.State.Auth.IsAuthenticated)
                 {
