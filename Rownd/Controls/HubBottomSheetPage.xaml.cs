@@ -282,7 +282,6 @@ namespace Rownd.Controls
         {
             Thickness insets = default;
 
-            // TODO Xamarin.Forms.Device.RuntimePlatform is no longer supported. Use Microsoft.Maui.Devices.DeviceInfo.Platform instead. For more details see https://learn.microsoft.com/en-us/dotnet/maui/migration/forms-projects#device-changes
             if (DeviceInfo.Platform == DevicePlatform.iOS)
             {
                 insets = On<iOS>().SafeAreaInsets();
@@ -318,7 +317,7 @@ namespace Rownd.Controls
 
         private double GetMaxHeight()
         {
-            return Math.Abs(GetProportionCoordinate(.95));
+            return Math.Abs(GetProportionCoordinate(.95) - Webview.KeyboardHeight);
         }
 
         /**
@@ -327,15 +326,15 @@ namespace Rownd.Controls
          * <param name="easing">An optional Easing to control how the animation occurs. Defaults to `Easing.SpringOut`.</param>
          * <returns>A Task that will complete with the animation.</returns>
          */
-        public async Task AnimateTo(double position, Easing easing = null)
+        public async Task AnimateTo(double position, Easing? easing = null)
         {
             easing ??= Easing.SpringOut;
 
-            position = -LimitYCoordToScreenMax(position - Webview.KeyboardHeight);
+            position = -LimitYCoordToScreenMax(position + Webview.KeyboardHeight);
 
             // Ignore small, negative adjustments in height
             var heightDifference = Math.Abs(Math.Abs(position) - Math.Abs(currentPosition));
-            if (heightDifference < 50)
+            if (heightDifference < 99)
             {
                 return;
             }
