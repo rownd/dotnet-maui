@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
-	<!--<Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />-->
 	<PropertyGroup>
 
 		<!-- Release information -->
 		<PackageId>Rownd.Maui</PackageId>
-		<PackageVersion>1.6.0</PackageVersion>
-		<AssemblyVersion>2</AssemblyVersion>
+		<PackageVersion>1.0.0</PackageVersion>
+		<AssemblyVersion>1</AssemblyVersion>
 		<Title>Rownd.Maui</Title>
 		<Description>Integrate simple, frictionless authentication into your .NET MAUI app.</Description>
 		<Authors>Matt Hamann</Authors>
@@ -15,10 +14,10 @@
 		<RepositoryUrl>https://github.com/rownd/dotnet-maui</RepositoryUrl>
 		<RepositoryType>git</RepositoryType>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
-		<PackageIcon>assets\rownd-xamarin-icon.png</PackageIcon>
+		<PackageIcon>assets\rownd-maui-icon.png</PackageIcon>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<PackRelease>true</PackRelease>
-		<ReleaseVersion>1.1.0</ReleaseVersion>
+		<ReleaseVersion>1.0.0</ReleaseVersion>
 		<SynchReleaseVersion>false</SynchReleaseVersion>
 
 		<!-- Framework setup -->
@@ -90,7 +89,7 @@
 		<None Remove="Models\Repos\" />
 		<None Remove="Utils\" />
 		<None Remove="assets\" />
-		<None Include="assets/rownd-xamarin-icon.png" Pack="true" PackagePath="assets" />
+		<None Include="assets/rownd-maui-icon.png" Pack="true" PackagePath="assets" />
 		<None Include="README.md" Pack="true" PackagePath="\" />
 		<None Remove="Hub\" />
 		<None Remove="Platforms\iOS\" />
@@ -110,7 +109,6 @@
 		<Folder Include="Hub\" />
 		<Folder Include="Platforms\" />
 		<Folder Include="Platforms\Android\" />
-		<Folder Include="Platforms\Android\Resources\" />
 		<Folder Include="Platforms\Android\Hub\" />
 		<Folder Include="Platforms\Android\assets\" />
 		<Folder Include="Platforms\iOS\" />
@@ -142,26 +140,5 @@
 	<ItemGroup Condition="$(TargetFramework.Contains('-windows')) != true">
 		<Compile Remove="**\Windows\**\*.cs" />
 		<None Include="**\Windows\**\*.cs" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder)" />
-	</ItemGroup>
-	<ItemGroup>
-		<AndroidResource Include="Platforms\Android\Resources\values\strings.xml">
-			<SubType>Designer</SubType>
-			<Generator>MSBuild:UpdateGeneratedFiles</Generator>
-		</AndroidResource>
-	</ItemGroup>
-	<ItemGroup>
-		<AndroidAsset Include="Platforms\Android\assets\rownd-android-icon.png">
-			<Pack>true</Pack>
-			<PackagePath>assets</PackagePath>
-		</AndroidAsset>
-	</ItemGroup>
-	<ItemGroup>
-		<None Update="Platforms\Android\README.md">
-			<Pack>true</Pack>
-			<PackagePath>\</PackagePath>
-		</None>
-	</ItemGroup>
-	<ItemGroup>
-	  <BundleResource Include="Platforms\iOS\assets\rownd-apple-icon.png" />
 	</ItemGroup>
 </Project>

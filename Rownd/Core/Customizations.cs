@@ -32,7 +32,7 @@ namespace Rownd.Maui.Core
 
         public int SheetCornerBorderRadius { get; set; } = 12;
 
-        public double DefaultFontSize { get; set; } = // TODO Xamarin.Forms.Device.GetNamedSize is not longer supported. For more details see https://learn.microsoft.com/en-us/dotnet/maui/migration/forms-projects#device-changes
+        public double DefaultFontSize { get; set; } = // TODO Xamarin.Forms.Device.GetNamedSize is no longer supported. For more details see https://learn.microsoft.com/en-us/dotnet/maui/migration/forms-projects#device-changes
 Device.GetNamedSize(NamedSize.Medium, typeof(Label)) * 0.6;
 
         public Customizations()

@@ -1,6 +1,6 @@
-# Rownd SDK for Xamarin
+# Rownd SDK for .NET MAUI
 
-The Rownd SDK for Xamarin provides authetnication, account and user profile management, deep linking, and more for cross-platform Xamarin apps.
+The Rownd SDK for .NET MAUI provides authentication, account and user profile management, deep linking, and more for cross-platform MAUI apps.
 
 Using the Rownd platform, you can easily bring the same authentication that's on your website to your mobile apps. Or if you only authenticate users on your mobile apps, you can streamline the authentication process using Rownd's passwordless sign-in links, enabling you to seamlessly authenticate users from an app link sent to their email or phone number.
 
@@ -10,44 +10,56 @@ Once a user is authenticated, you can retrieve and update their profile informat
 
 ### Prerequisites
 
-- .NET Standard 2.1 or higher
+- .NET 8 or higher
 - Android API 26 or higher (Android 8+)
 - iOS/iPadOS 14 or higher
 
 ### Installation
 
-Rownd provides a core shared library alongside platform-specific libraries that contain a few critical linkages into native code.
+Rownd provides a single library that works across iOS, Android, and Mac Catalyst.
 
-In your shared app project, add a NuGet dependency on `Rownd.Xamarin`.
+In your app project and any platform-specific projects, add a NuGet dependency on `Rownd.Maui`.
 
 ```bash
-dotnet add package Rownd.Xamarin
-```
-
-In your platform-specific application projects, add the applicable NuGet package as follows:
-
-**iOS**
-```
-dotnet add package Rownd.Xamarin.iOS
-```
-
-**Android**
-```
-dotnet add package Rownd.Xamarin.Android
+dotnet add package Rownd.Maui
 ```
 
 ## Usage
 
 ### Initialize the SDK
 
-In your shared app project, open the main entry point (usually `App.xaml.cs`) and add the following code to the constructor. A basic example might look something like this:
+In your main app project, open the main entry point (usually `MauiProgram.cs`) and add the `UseRownd()` build step to your builder initialization. This allows Rownd to register view handlers or other required native hooks. Yours might look something like this:
 
 ```C#
-using Rownd.Xamarin;
-using RowndXamarinExample.Services;
-using Xamarin.Forms;
+using CommunityToolkit.Maui;
+using Microsoft.Maui.Controls.Compatibility.Hosting;
+using Rownd.Maui.Utils;
 
-namespace RowndXamarinExample
+namespace RowndMauiExample;
+
+public static class RowndMauiExample
+{
+    public static MauiApp CreateMauiApp()
+    {
+        var builder = MauiApp.CreateBuilder();
+        builder
+            .UseMauiCompatibility()
+            .UseMauiApp<App>()
+            .UseMauiCommunityToolkit()
+            .UseRownd();    // <-- This is the important bit!
+
+        return builder.Build();
+    }
+}
+
+```
+
+Next, in your `App.xaml.cs` file, initialize the Rownd SDK and save a reference to it. Again, your code might look similar to this example:
+
+```C#
+using Rownd.Maui;
+
+namespace RowndMauiExample
 {
     public partial class App : Application
     {
@@ -69,62 +81,8 @@ namespace RowndXamarinExample
 
 If you're using `DependencyService`, you might want to add Rownd to make it easily accessible across the project:
 
-```
+```C#
 DependencyService.RegisterSingleton<IRowndInstance>(Rownd);
-```
-
-### iOS only - pre-init
-In order to ensure that certain native extensions get loaded early enough, add the following line to your `AppDelegate.cs` file in your iOS project:
-
-```C#
-Rownd.Xamarin.iOS.Boot.Init();
-```
-
-Example:
-
-```C#
-namespace RowndXamarinExample.iOS
-{
-    [Register("AppDelegate")]
-    public partial class AppDelegate : global::Xamarin.Forms.Platform.iOS.FormsApplicationDelegate
-    {
-        public override bool FinishedLaunching(UIApplication app, NSDictionary options)
-        {
-            Rownd.Xamarin.iOS.Boot.Init();  // <-- ADD THIS BEFORE XAMARIN FORMS INIT
-
-            global::Xamarin.Forms.Forms.Init();
-            LoadApplication(new App());
-            return base.FinishedLaunching(app, options);
-        }
-    }
-}
-```
-
-### Android only - pre-init
-In order to ensure that certain native extensions get loaded early enough, add the following line to your `MainActivity.cs` file in your Android project:
-
-```C#
-Rownd.Xamarin.Android.Boot.Init();
-```
-
-Example:
-
-```C#
-namespace RowndXamarinExample.Droid
-{
-    [Activity(Label = "RowndXamarinExample", Icon = "@mipmap/icon", Theme = "@style/MainTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation | ConfigChanges.UiMode | ConfigChanges.ScreenLayout | ConfigChanges.SmallestScreenSize )]
-    public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
-    {
-        protected override void OnCreate(Bundle savedInstanceState)
-        {
-            base.OnCreate(savedInstanceState);
-            Rownd.Xamarin.Android.Boot.Init();
-
-            global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
-            LoadApplication(new App());
-        }
-    }
-}
 ```
 
 ### Handling authentication state
@@ -136,7 +94,7 @@ Generally, you'll want to listen to updates from Rownd's state and then trigger 
 Here's an example of a ViewModel that subscribes to the authentication state. A XAML view might adjust its layout based on `AuthState.IsAuthenticated`.
 
 ```C#
-namespace RowndXamarinExample.ViewModels
+namespace RowndMauiExample.ViewModels
 {
     public class ExampleViewModel : BaseViewModel
     {
@@ -152,7 +110,6 @@ namespace RowndXamarinExample.ViewModels
                 OnPropertyChanged("AuthState");
             });
         }
-}
     }
 }
 ```

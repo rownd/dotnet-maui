@@ -15,7 +15,7 @@ namespace RowndMauiExample
                 HubUrl = "https://hub.dev.rownd.io"
             };
             Rownd = RowndInstance.GetInstance(this, config);
-            Rownd.Configure("key_zu8melvxnnhkbya4m2hjcxu1");
+            Rownd.Configure("YOUR_APP_KEY");
 
             DependencyService.RegisterSingleton<IRowndInstance>(Rownd);
 
@@ -28,7 +28,6 @@ namespace RowndMauiExample
 
         protected override void OnStart()
         {
-            
         }
 
         protected override void OnSleep()

@@ -117,8 +117,6 @@ namespace Rownd.Maui.Hub
                 _handler = handler;
             }
 
-            // Be sure to implement ALL methods with are implemented by the CustomWebViewNavigationDelete, which is a private class, so we can't override it simply
-            // https://github.com/xamarin/Xamarin.Forms/blob/4.6.0/Xamarin.Forms.Platform.iOS/Renderers/WkWebViewRenderer.cs
             public override void DidFailNavigation(WKWebView webView, WKNavigation navigation, NSError error)
             {
                 _defaultDelegate.DidFailNavigation(webView, navigation, error);
