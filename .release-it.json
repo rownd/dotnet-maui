@@ -24,7 +24,7 @@
   "hooks": {
     "after:bump": [
       "mkdir -p pack",
-      "cd Rownd && dotnet pack --configuration Release -o ../pack --include-source --include-symbols"
+      "cd Rownd && dotnet pack --configuration Release -o ../pack --include-symbols"
     ],
     "after:github:release": [
       "nuget push ./pack/Rownd.Maui.${version}.nupkg -src https://nuget.org"
