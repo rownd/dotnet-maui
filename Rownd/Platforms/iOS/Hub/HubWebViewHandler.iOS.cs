@@ -100,7 +100,7 @@ namespace Rownd.Maui.Hub
             {
                 isKeyboardStateChanging = true;
                 CGRect keyboardFrame = args.FrameEnd;
-                _ = hubWebView.HandleKeyboardStateChange(true, keyboardFrame.Height);
+                _ = hubWebView.HandleKeyboardStateChange(true, 0);
             });
 
             UIKeyboard.Notifications.ObserveDidShow((sender, args) =>
