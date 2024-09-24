@@ -4,7 +4,7 @@
 
 		<!-- Release information -->
 		<PackageId>Rownd.Maui</PackageId>
-		<PackageVersion>1.0.0</PackageVersion>
+		<PackageVersion>1.0.1</PackageVersion>
 		<AssemblyVersion>1</AssemblyVersion>
 		<Title>Rownd.Maui</Title>
 		<Description>Integrate simple, frictionless authentication into your .NET MAUI app.</Description>
@@ -17,7 +17,7 @@
 		<PackageIcon>assets\rownd-maui-icon.png</PackageIcon>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<PackRelease>true</PackRelease>
-		<ReleaseVersion>1.0.0</ReleaseVersion>
+		<ReleaseVersion>1.0.1</ReleaseVersion>
 		<SynchReleaseVersion>false</SynchReleaseVersion>
 
 		<!-- Framework setup -->
