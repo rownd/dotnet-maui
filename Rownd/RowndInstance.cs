@@ -191,7 +191,14 @@ namespace Rownd.Maui
                 Data = payload.Data
             };
 
-            Events?.Invoke(this, evt);
+            try
+            {
+                Events?.Invoke(this, evt);
+            }
+            catch (Exception error)
+            {
+                Console.WriteLine($"External event handler threw an error during event processing: {error.Message}\n{error.StackTrace}");
+            }
         }
 
         public class RowndEventArgs : EventArgs
