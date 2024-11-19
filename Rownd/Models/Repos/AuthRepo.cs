@@ -16,6 +16,7 @@ namespace Rownd.Maui.Models.Repos
         public class RefreshTokenExpiredException : Exception
         {
             public RefreshTokenExpiredException() { }
+
             public RefreshTokenExpiredException(string message) : base(message) { }
         }
 

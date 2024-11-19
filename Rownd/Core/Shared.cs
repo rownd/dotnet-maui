@@ -1,17 +1,19 @@
-﻿using GuerrillaNtp;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Hosting;
-using Rownd.Maui.Models.Repos;
-using Rownd.Maui.Utils;
-
-namespace Rownd.Maui.Core
+﻿namespace Rownd.Maui.Core
 {
+    using Microsoft.Extensions.Configuration;
+    using Microsoft.Extensions.Hosting;
+    using Rownd.Maui.Models.Repos;
+    using Rownd.Maui.Utils;
+
     public static class Shared
     {
         public static RowndInstance Rownd { get; private set; }
+
         public static Application App { get; set; }
+
         public static IServiceProvider ServiceProvider { get; set; }
-        public static NtpClock NtpClock { get; private set; }
+
+        internal static TimeManager TimeManager { get; set; } = TimeManager.shared;
 
         public static void Init(RowndInstance inst, Application app, Config config = null)
         {
@@ -26,7 +28,7 @@ namespace Rownd.Maui.Core
                 {
                     c.AddInMemoryCollection(new List<KeyValuePair<string, string?>>
                     {
-                        new KeyValuePair<string, string?>(HostDefaults.ContentRootKey, root)
+                        new KeyValuePair<string, string?>(HostDefaults.ContentRootKey, root),
                     });
                 })
                 .ConfigureServices((ctx, svcCollection) =>
@@ -52,21 +54,12 @@ namespace Rownd.Maui.Core
                 services.AddSingleton(new Config());
             }
 
-            NtpClient ntpClient = new NtpClient("time.cloudflare.com");
-            services.AddSingleton(ntpClient);
-
             services.AddSingleton(new StateRepo());
             services.AddSingleton<ApiClient, ApiClient>();
             services.AddSingleton<AppConfigRepo, AppConfigRepo>();
             services.AddSingleton<AuthRepo>();
             services.AddSingleton<UserRepo>();
             services.AddSingleton<SignInLinkHandler>();
-
-            Task.Run(() =>
-                {
-                    NtpClock = ntpClient.Query();
-                }
-            );
         }
     }
 }

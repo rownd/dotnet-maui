@@ -1,33 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using Microsoft.Extensions.DependencyInjection;
-using Newtonsoft.Json;
-using ReduxSimple;
-using Rownd.Maui.Core;
-using Rownd.Maui.Models.Domain;
-using Rownd.Maui.Utils;
-
-namespace Rownd.Maui.Models.Repos
+﻿namespace Rownd.Maui.Models.Repos
 {
+    using Newtonsoft.Json;
+    using ReduxSimple;
+    using Rownd.Maui.Core;
+    using Rownd.Maui.Models.Domain;
+    using Rownd.Maui.Utils;
+
     public class StateRepo
     {
-        public ReduxStore<GlobalState> Store
+        public ReduxStore<GlobalState>? Store
         {
             get;
             private set;
         }
+
+        private GlobalState? PreviousState;
 
         public static StateRepo Get()
         {
             return Shared.ServiceProvider.GetService<StateRepo>();
         }
 
-        private IDisposable statePersistenceListener;
-
-        public StateRepo()
-        {
-        }
+        private IDisposable? statePersistenceListener;
 
         public void Setup()
         {
@@ -114,10 +108,7 @@ namespace Rownd.Maui.Models.Repos
                 return;
             }
 
-            if (existingState == null)
-            {
-                existingState = new GlobalState();
-            }
+            existingState ??= new GlobalState();
 
             existingState.IsInitialized = true;
 
@@ -134,6 +125,13 @@ namespace Rownd.Maui.Models.Repos
                     {
                         AutomationProcessor.RunAutomationsIfNeeded(state);
                     }
+
+                    if (PreviousState?.User.Id == null && state.Auth.IsAuthenticated && state.User.Id != null)
+                    {
+                        Shared.Rownd.FireOnAuthenticated(state);
+                    }
+
+                    PreviousState = state;
                 });
         }
     }

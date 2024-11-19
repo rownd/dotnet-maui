@@ -1,36 +1,40 @@
-﻿using ReduxSimple;
-using Rownd.Controls;
-using Rownd.Maui.Core;
-using Rownd.Maui.Hub;
-using Rownd.Maui.Hub.HubMessage;
-using Rownd.Maui.Models;
-using Rownd.Maui.Models.Domain;
-using Rownd.Maui.Models.Repos;
-using Rownd.Maui.Utils;
-
-namespace Rownd.Maui
+﻿namespace Rownd.Maui
 {
+    using ReduxSimple;
+    using Rownd.Controls;
+    using Rownd.Maui.Core;
+    using Rownd.Maui.Hub;
+    using Rownd.Maui.Hub.HubMessage;
+    using Rownd.Maui.Models;
+    using Rownd.Maui.Models.Domain;
+    using Rownd.Maui.Models.Repos;
+    using Rownd.Maui.Utils;
+
     public class RowndInstance : IRowndInstance
     {
         private HubBottomSheetPage? hubBottomSheet = null;
         private static RowndInstance inst;
         private AppleAuthenticatorHandler appleAuthHandler;
 
+        public event EventHandler<RowndEventArgs> Events;
+
+        public event EventHandler<GlobalState> OnAuthenticated;
+
         internal StateRepo State { get; private set; }
+
         internal AuthRepo Auth { get; private set; }
 
         public UserRepo User { get; private set; }
 
         public Config Config { get; set; }
+
         public ReduxStore<GlobalState> Store
         {
             get
             {
-                return State.Store;
+                return this.State.Store;
             }
         }
-
-        public event EventHandler<RowndEventArgs> Events;
 
         private RowndInstance(Application app, Config? config = null)
         {
@@ -198,6 +202,18 @@ namespace Rownd.Maui
             catch (Exception error)
             {
                 Console.WriteLine($"External event handler threw an error during event processing: {error.Message}\n{error.StackTrace}");
+            }
+        }
+
+        internal void FireOnAuthenticated(GlobalState state)
+        {
+            try
+            {
+                OnAuthenticated?.Invoke(this, state);
+            }
+            catch (Exception e)
+            {
+                // no-op
             }
         }
 

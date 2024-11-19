@@ -1,18 +1,14 @@
-﻿using System;
-using System.ComponentModel;
-using System.Windows.Input;
-using Rownd.Maui;
-using Rownd.Maui.Models.Domain;
-using Microsoft.Maui.Controls;
-using Microsoft.Maui;
-using Microsoft.Maui.ApplicationModel;
-
-namespace RowndMauiExample.ViewModels
+﻿namespace RowndMauiExample.ViewModels
 {
+    using System.Windows.Input;
+    using Rownd.Maui.Models.Domain;
+
     public class AboutViewModel : BaseViewModel
     {
         private readonly Page page;
+
         public GlobalState RowndState { get; set; }
+
         public string? FirstName
         {
             get
@@ -32,11 +28,14 @@ namespace RowndMauiExample.ViewModels
             SignOut = new Command(() => Rownd.SignOut());
             RefreshToken = new Command(() => Rownd._InternalTestRefreshToken());
 
-            EditProfile = new Command(() => Rownd.ManageAccount(new Rownd.Maui.Utils.RowndManageAccountOpts
+            EditProfile = new Command(() =>
             {
-                VisibleProfileFields = new string[] { "phone_number" },
-                AutoFocusField = "phone_number"
-            }));
+                Rownd.ManageAccount(new Rownd.Maui.Utils.RowndManageAccountOpts
+                {
+                    VisibleProfileFields = new string[] { "phone_number" },
+                    AutoFocusField = "phone_number"
+                });
+            });
 
             UpdateName = new Command(async () =>
             {

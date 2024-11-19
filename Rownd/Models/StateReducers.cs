@@ -1,14 +1,11 @@
-﻿using System.Collections.Generic;
-using GuerrillaNtp;
-using Microsoft.Extensions.DependencyInjection;
-using ReduxSimple;
-using Rownd.Maui.Core;
-using Rownd.Maui.Models.Domain;
-using Rownd.Maui.Utils;
-using static ReduxSimple.Reducers;
-
-namespace Rownd.Maui.Models
+﻿namespace Rownd.Maui.Models
 {
+    using ReduxSimple;
+    using Rownd.Maui.Core;
+    using Rownd.Maui.Models.Domain;
+    using Rownd.Maui.Utils;
+    using static ReduxSimple.Reducers;
+
     public static class StateReducers
     {
         public static IEnumerable<On<GlobalState>> CreateReducers()
@@ -62,8 +59,8 @@ namespace Rownd.Maui.Models
                     {
                         if (action.SignInState.LastSignIn != null)
                         {
-                            var ntpClient = Shared.ServiceProvider.GetService<NtpClient>();
-                            var currentTime = (ntpClient.Last ?? NtpClock.LocalFallback).UtcNow.UtcDateTime;
+                            var timeManager = Shared.TimeManager;
+                            var currentTime = timeManager.CurrentTime ?? DateTime.UtcNow;
                             action.SignInState.LastSignInDate = currentTime.ToUniversalISO8601();
                         }
 

@@ -10,7 +10,7 @@ namespace Rownd.Maui.Models.Domain
         public bool IsLoading { get; set; }
 
         [JsonIgnore]
-        public string Id
+        public string? Id
         {
             get
             {

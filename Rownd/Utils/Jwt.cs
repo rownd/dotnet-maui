@@ -1,18 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using GuerrillaNtp;
-using JWT;
-using JWT.Builder;
-using Microsoft.Extensions.DependencyInjection;
-using Newtonsoft.Json;
-using Rownd.Maui.Core;
-
-namespace Rownd.Maui.Utils
+﻿namespace Rownd.Maui.Utils
 {
+    using JWT;
+    using JWT.Builder;
+    using Newtonsoft.Json;
+    using Rownd.Maui.Core;
+
     public class Jwt
     {
-        public Jwt() { }
-
         public static bool IsJwtValid(string token)
         {
             try
@@ -27,7 +21,7 @@ namespace Rownd.Maui.Utils
                 // Get claims as dictionary
                 var jwtClaims = JsonConvert.DeserializeObject<Dictionary<string, object>>(json);
 
-                if (jwtClaims["exp"] == null)
+                if (jwtClaims?["exp"] == null)
                 {
                     return false;
                 }
@@ -35,11 +29,10 @@ namespace Rownd.Maui.Utils
                 // Coerce exp to long
                 var jwtExp = Convert.ToInt64(jwtClaims["exp"]);
                 var jwtExpTime = DateTimeOffset.FromUnixTimeSeconds(jwtExp).DateTime;
-                var ntpClient = Shared.ServiceProvider.GetService<NtpClient>();
-                var ntpClock = Shared.NtpClock ?? ntpClient.Last;
+                var timeManager = Shared.TimeManager;
 
                 // Try our best to get internet time, but fallback to local time if we must
-                var currentTime = ntpClock?.UtcNow.UtcDateTime ?? DateTime.UtcNow;
+                var currentTime = timeManager?.CurrentTime ?? DateTime.UtcNow;
 
                 return jwtExpTime > currentTime.AddMinutes(5);
             }

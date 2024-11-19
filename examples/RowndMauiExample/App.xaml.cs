@@ -15,6 +15,12 @@ namespace RowndMauiExample
                 HubUrl = "https://hub.dev.rownd.io"
             };
             Rownd = RowndInstance.GetInstance(this, config);
+ 
+            Rownd.OnAuthenticated += (sender, state) =>
+            {
+                Console.WriteLine("Authenticated!");
+            };
+
             Rownd.Configure("YOUR_APP_KEY");
 
             DependencyService.RegisterSingleton<IRowndInstance>(Rownd);

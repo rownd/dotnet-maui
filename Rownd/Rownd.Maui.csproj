@@ -62,19 +62,18 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="RestSharp" Version="111.3.0" />
+		<PackageReference Include="RestSharp" Version="112.1.0" />
 		<PackageReference Include="JsonKnownTypes" Version="0.6.0" />
 		<PackageReference Include="JsonSubTypes" Version="2.0.1" />
 		<PackageReference Include="JWT" Version="10.1.1" />
 		<PackageReference Include="System.Reactive" Version="6.0.0" />
-		<PackageReference Include="RestSharp.Serializers.NewtonsoftJson" Version="111.3.0" />
+		<PackageReference Include="RestSharp.Serializers.NewtonsoftJson" Version="112.1.0" />
 		<PackageReference Include="HttpTracer" Version="2.1.1" />
 		<PackageReference Include="ReduxSimple" Version="3.7.0" />
-		<PackageReference Include="GuerrillaNtp" Version="3.1.0" />
 		<PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
 		<PackageReference Include="Microsoft.Extensions.Hosting" Version="7.0.1" />
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-		<PackageReference Include="System.Text.Json" Version="7.0.4" />
+		<PackageReference Include="System.Text.Json" Version="9.0.0" />
 		<PackageReference Include="CommunityToolkit.Maui" Version="9.0.1" />
 		<PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)" />
 		<PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="$(MauiVersion)" />
@@ -104,7 +103,6 @@
 		<Folder Include="Models\" />
 		<Folder Include="Models\Domain\" />
 		<Folder Include="Models\Repos\" />
-		<Folder Include="Utils\" />
 		<Folder Include="assets\" />
 		<Folder Include="Hub\" />
 		<Folder Include="Platforms\" />
