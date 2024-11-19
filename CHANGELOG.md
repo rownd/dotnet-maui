@@ -1,5 +1,12 @@
 
 
+# [1.1.0](https://github.com/rownd/dotnet-maui/compare/1.0.1...1.1.0) (2024-11-19)
+
+
+### Features
+
+* **auth:** onAuthenticated callback ([b0dac12](https://github.com/rownd/dotnet-maui/commit/b0dac1229326ac94babffa87fe80cfe374919763))
+
 ## [1.0.1](https://github.com/rownd/dotnet-maui/compare/1.0.0...1.0.1) (2024-09-24)
 
 
