@@ -1,4 +1,5 @@
 using HttpTracer;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using RestSharp;
@@ -23,7 +24,7 @@ public class TimeManager
         {
             if (FetchedWorldTime == null || FetchTime == null)
             {
-                Console.WriteLine("Network time not available");
+                Loggers.Default.LogWarning("Network time not available");
                 return null;
             }
 
@@ -43,7 +44,7 @@ public class TimeManager
     {
         var options = new RestClientOptions("https://worldtimeapi.org")
         {
-            ConfigureMessageHandler = handler => new HttpTracerHandler(handler),
+            ConfigureMessageHandler = handler => new HttpTracerHandler(handler, Loggers.Http, HttpMessageParts.All),
             UserAgent = Constants.DEFAULT_API_USER_AGENT,
         };
 
@@ -90,11 +91,11 @@ public class TimeManager
             this.FetchTime = default(DateTime);
             this.FetchedWorldTime = fetchedDate;
 
-            Console.WriteLine($"Network time fetched: ${fetchedDate}");
+            Loggers.Default.LogDebug("Network time fetched: {fetchedDate}", fetchedDate);
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"Error fetching network time: ${ex.Message}");
+            Loggers.Default.LogWarning("Error fetching network time: {message}", ex.Message);
         }
     }
 

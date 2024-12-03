@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using RestSharp;
 using Rownd.Maui.Core;
@@ -94,7 +95,7 @@ namespace Rownd.Maui.Models.Repos
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Failed to exchange or refresh access token: {ex}");
+                Loggers.Default.LogCritical("Failed to exchange or refresh access token: {ex}", ex);
                 return null;
             }
         }
@@ -138,13 +139,13 @@ namespace Rownd.Maui.Models.Repos
                     }
                     catch (RefreshTokenExpiredException ex)
                     {
-                        Console.WriteLine($"Failed to refresh token. It was likely expired. User will be signed out. Reason: {ex}");
+                        Loggers.Default.LogWarning("Failed to refresh token. It was likely expired. User will be signed out. Reason: {ex}", ex);
                         MainThread.BeginInvokeOnMainThread(() => Shared.Rownd.SignOut());
                         return null;
                     }
                     catch (Exception ex)
                     {
-                        Console.WriteLine($"Failed to refresh token. This may be recoverable. Reason: {ex}");
+                        Loggers.Default.LogWarning("Failed to refresh token. This may be recoverable. Reason: {ex}", ex);
                         throw new RowndException("Failed to refresh token. This may be recoverable.", ex.InnerException);
                     }
                     finally

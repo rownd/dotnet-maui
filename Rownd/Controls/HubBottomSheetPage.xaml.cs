@@ -1,9 +1,11 @@
-﻿using Microsoft.Maui.Controls.PlatformConfiguration;
+﻿using Microsoft.Extensions.Logging;
+using Microsoft.Maui.Controls.PlatformConfiguration;
 using Microsoft.Maui.Controls.PlatformConfiguration.AndroidSpecific;
 using Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;
 using Rownd.Maui.Controls;
 using Rownd.Maui.Core;
 using Rownd.Maui.Hub;
+using Rownd.Maui.Utils;
 
 #if ANDROID
 using Rownd.Maui.Android;
@@ -224,7 +226,7 @@ namespace Rownd.Controls
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex);
+                Loggers.Default.LogTrace("Pan gesture recognizer failure: {ex}", ex);
             }
         }
 

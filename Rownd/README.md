@@ -140,6 +140,67 @@ class UserState
 }
 ```
 
+## Logging
+
+The Rownd SDK logs errors and warnings in addition to informational and debug
+messages using the `Microsoft.Extensions.Logging` library. This gives you 
+control over which Rownd messages are interleaved into your own logs.
+
+We strongly enable recommending logs for at least Warning severities and higher,
+as this will help you catch and debug issues during development and may also
+be helpful when troubleshooting problems in production.
+
+To enable logging, pass an instance of `ILoggerFactory` to
+`Rownd.Maui.Utils.Loggers.SetLogFactory()` during the bootstrapping of your app.
+For example, in `MauiProgram.cs`:
+
+```c#
+public static MauiApp CreateMauiApp()
+{
+    var builder = MauiApp.CreateBuilder();
+
+    builder.UseSharedMauiApp();
+
+    var app = builder.Build();
+
+    var loggerFactory = app.Services.GetService<ILoggerFactory>();
+    Rownd.Maui.Utils.Loggers.SetLogFactory(loggerFactory);  // <--- pass your app's ILoggerFactory
+
+    return app;
+}
+```
+
+By default, you'll start seeing logs for whatever your app's minimum logging
+level is set to. To filter Rownd logs for only warnings and higher, modify
+your Maui app build phase along these lines:
+
+```c#
+public static MauiAppBuilder UseSharedMauiApp(this MauiAppBuilder builder)
+{
+    builder.Services.AddLogging(
+        configure =>
+        {
+            configure.SetMinimumLevel(LogLevel.Trace);  // <--- `trace` logs for your app
+            configure.AddFilter("rownd", LogLevel.Warning);   // <--- `warning` logs from Rownd
+            configure.AddDebug();
+            configure.AddConsole();
+        }
+    );
+
+    builder
+        .UseMauiCompatibility()
+        .UseMauiApp<App>()
+        .UseMauiCommunityToolkit()
+        .UseRownd();
+
+    // TODO: Add the entry points to your Apps here.
+    // See also: https://learn.microsoft.com/dotnet/maui/fundamentals/app-lifecycle
+    builder.Services.AddTransient<AppShell>();
+
+    return builder;
+}
+```
+
 ## API reference
 
 In addition to the state APIs, Rownd provides imperative APIs that you can call to request sign in, get and retrieve user profile information, retrieve a current access token, and so on.
@@ -219,3 +280,4 @@ Replaces the user's data with that contained in the Dictionary. This may overwri
 
 ### `void Rownd.User.Set(field: string, value: dynamic)`
 Sets a specific user profile field to the provided value, overwriting if a value already exists.
+

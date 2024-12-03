@@ -1,4 +1,6 @@
-﻿namespace Rownd.Maui
+﻿using Microsoft.Extensions.Logging;
+
+namespace Rownd.Maui
 {
     using ReduxSimple;
     using Rownd.Controls;
@@ -76,7 +78,7 @@
             switch (with)
             {
                 case SignInMethod.Apple:
-                    Console.WriteLine("RequestSignIn(.apple): call .SignIn()");
+                    Loggers.Default.LogTrace("RequestSignIn(.apple): call .SignIn()");
                     appleAuthHandler.SignIn(null);
                     break;
 
@@ -201,7 +203,7 @@
             }
             catch (Exception error)
             {
-                Console.WriteLine($"External event handler threw an error during event processing: {error.Message}\n{error.StackTrace}");
+                Loggers.Default.LogWarning("External event handler threw an error during event processing: {message}\n{stackTrace}", error.Message, error.StackTrace);
             }
         }
 

@@ -1,14 +1,13 @@
-﻿using System;
-using System.Text;
-using System.Threading.Tasks;
-using System.Web;
-using Microsoft.Extensions.DependencyInjection;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
-using Rownd.Maui.Models.Repos;
-
-namespace Rownd.Maui.Core
+﻿namespace Rownd.Maui.Core
 {
+    using System.Text;
+    using System.Web;
+    using Microsoft.Extensions.Logging;
+    using Newtonsoft.Json;
+    using Newtonsoft.Json.Serialization;
+    using Rownd.Maui.Models.Repos;
+    using Rownd.Maui.Utils;
+
     public class Config
     {
         [JsonProperty("appKey")]
@@ -57,7 +56,7 @@ namespace Rownd.Maui.Core
                 queryString.Add("sign_in", signInInitStr);
             } catch (Exception error)
             {
-                Console.WriteLine($"Couldn't compute last sign-in info: {error.Message}");
+                Loggers.Default.LogDebug("Couldn't compute last sign-in info: {message}", error.Message);
             }
 
             UriBuilder uriBuilder = new UriBuilder($"{HubUrl}/mobile_app")
@@ -73,10 +72,10 @@ namespace Rownd.Maui.Core
             }
             catch (Exception error)
             {
-                Console.WriteLine($"Couldn't compute requested init hash: {error.Message}");
+                Loggers.Default.LogDebug("Couldn't compute requested init hash: {message}", error.Message);
             }
 
-            Console.WriteLine($"Hub config: {uriBuilder}");
+            Loggers.Default.LogDebug($"Hub config: {uriBuilder}");
 
             return uriBuilder.ToString();
         }

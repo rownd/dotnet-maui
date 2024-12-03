@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Rownd.Maui.Models.Domain;
+﻿using Microsoft.Extensions.Logging;
+using Rownd.Maui.Utils;
 
 namespace Rownd.Maui.Core
 {
+    using Rownd.Maui.Models.Domain;
+
     public static class AutomationProcessor
     {
         public static void RunAutomationsIfNeeded(GlobalState state)
@@ -13,7 +12,7 @@ namespace Rownd.Maui.Core
             try
             {
                 var shouldRunAutomations = DoAutomationsNeedToRun(state);
-                Console.WriteLine($"Should automations run? {shouldRunAutomations}");
+                Loggers.Default.LogDebug("Should automations run? {shouldRunAutomations}", shouldRunAutomations);
 
                 if (shouldRunAutomations && !Shared.Rownd.IsHubOpen())
                 {
@@ -25,7 +24,7 @@ namespace Rownd.Maui.Core
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Failed to run automations: {ex}");
+                Loggers.Default.LogWarning("Failed to run automations: {ex}", ex);
             }
         }
 

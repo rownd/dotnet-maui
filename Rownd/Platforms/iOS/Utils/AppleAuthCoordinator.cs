@@ -1,5 +1,6 @@
 ﻿using AuthenticationServices;
 using Foundation;
+using Microsoft.Extensions.Logging;
 using Rownd.Maui.Core;
 using Rownd.Maui.Models.Repos;
 using Rownd.Maui.Utils;
@@ -27,7 +28,7 @@ namespace Rownd.Maui.iOS
 
         public void SignIn(SignInIntent? intent)
         {
-            Console.WriteLine("AppleAuthCoordinator.SignIn(intent)");
+            Loggers.Default.LogTrace("AppleAuthCoordinator.SignIn(intent)");
             this.intent = intent;
 
             // Create an object of the ASAuthorizationAppleIDProvider
@@ -239,7 +240,7 @@ namespace Rownd.Maui.iOS
         public void DidComplete(ASAuthorizationController controller, NSError error)
         {
             // If there is any error, we'll get it here
-            Console.WriteLine($"An error occurred while signing in with Apple. Error: {error}");
+            Loggers.Default.LogError("An error occurred while signing in with Apple. Error: {error}", error);
 
             if (error == null)
             {

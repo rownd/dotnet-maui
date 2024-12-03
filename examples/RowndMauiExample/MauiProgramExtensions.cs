@@ -1,4 +1,5 @@
 using CommunityToolkit.Maui;
+using Microsoft.Extensions.Logging;
 using Microsoft.Maui.Controls.Compatibility.Hosting;
 using Rownd.Maui.Utils;
 
@@ -8,6 +9,16 @@ public static class MauiProgramExtensions
 {
     public static MauiAppBuilder UseSharedMauiApp(this MauiAppBuilder builder)
     {
+        builder.Services.AddLogging(
+            configure =>
+            {
+                configure.SetMinimumLevel(LogLevel.Trace);
+                configure.AddFilter("rownd", LogLevel.Trace);
+                configure.AddDebug();
+                configure.AddConsole();
+            }
+        );
+
         builder
             .UseMauiCompatibility()
             .UseMauiApp<App>()

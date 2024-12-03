@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Maui;
+using Microsoft.Extensions.Logging;
 using Microsoft.Maui.Controls.Compatibility.Hosting;
 
 namespace RowndMauiExample
@@ -11,7 +12,12 @@ namespace RowndMauiExample
 
             builder.UseSharedMauiApp();
 
-            return builder.Build();
+            var app = builder.Build();
+
+            var loggerFactory = app.Services.GetService<ILoggerFactory>();
+            Rownd.Maui.Utils.Loggers.SetLogFactory(loggerFactory);
+
+            return app;
         }
     }
 }
