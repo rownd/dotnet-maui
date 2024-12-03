@@ -4,6 +4,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using RestSharp;
 using RestSharp.Serializers.NewtonsoftJson;
+using Rownd.Maui.Utils;
 
 namespace Rownd.Maui.Core
 {
@@ -22,7 +23,7 @@ namespace Rownd.Maui.Core
             var options = new RestClientOptions(config.ApiUrl)
             {
                 Authenticator = new ApiAuthenticator(),
-                ConfigureMessageHandler = handler => new HttpTracerHandler(handler),
+                ConfigureMessageHandler = handler => new HttpTracerHandler(handler, Loggers.Http, HttpMessageParts.All),
                 UserAgent = Constants.DEFAULT_API_USER_AGENT,
             };
 

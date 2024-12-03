@@ -1,4 +1,6 @@
-﻿namespace Rownd.Maui.Models.Repos
+﻿using Microsoft.Extensions.Logging;
+
+namespace Rownd.Maui.Models.Repos
 {
     using Newtonsoft.Json;
     using ReduxSimple;
@@ -34,9 +36,9 @@
             Task.Run(async () =>
             {
                 var appConfigRepo = AppConfigRepo.Get();
-                Console.WriteLine("Going to load app config");
+                Loggers.Default.LogTrace("Going to load app config");
                 await appConfigRepo.LoadAppConfigAsync();
-                Console.WriteLine("Done loading app config");
+                Loggers.Default.LogTrace("Done loading app config");
 
                 if (Store.State.Auth.IsAuthenticated)
                 {
@@ -83,12 +85,12 @@
             {
                 var existingStateJsonStr = Preferences.Get("rownd_state", null);
                 GlobalState? existingState = JsonConvert.DeserializeObject<GlobalState>(existingStateJsonStr);
-                Console.WriteLine($"Restoring existing state: {existingState}");
+                Loggers.Default.LogDebug("Restoring existing state: {existingState}", existingState);
                 InitializeStore(existingState);
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error getting existing state. This is expected on first run. {ex}");
+                Loggers.Default.LogWarning("Error getting existing state. This is expected on first run. {ex}", ex);
                 InitializeStore();
                 return;
             }
@@ -97,7 +99,7 @@
         private void SaveState(GlobalState state)
         {
             var stateJson = JsonConvert.SerializeObject(state);
-            Console.WriteLine($"Saving serialized state to storage: {stateJson}");
+            Loggers.Default.LogTrace($"Saving serialized state to storage: {stateJson}");
             Preferences.Set("rownd_state", stateJson);
         }
 
@@ -118,7 +120,7 @@
                 .Subscribe(state =>
                 {
                     // Listening to the full state (when any property changes)
-                    Console.WriteLine($"Storing Rownd state: {state}");
+                    Loggers.Default.LogTrace($"Storing Rownd state: {state}");
                     SaveState(state);
 
                     if (state.IsReady)

@@ -1,6 +1,8 @@
 ﻿using System.Drawing;
 using Foundation;
+using Microsoft.Extensions.Logging;
 using Rownd.Maui.Core;
+using Rownd.Maui.Utils;
 using UIKit;
 using WebKit;
 
@@ -28,7 +30,7 @@ namespace Rownd.Maui.Hub
 
                 if (keyWindow == null)
                 {
-                    Console.WriteLine("Did not find the key window");
+                    Loggers.Default.LogDebug("Did not find the key window");
                     return default;
                 }
 
@@ -173,7 +175,7 @@ namespace Rownd.Maui.Hub
         {
             public override void DidReceiveScriptMessage(WKUserContentController userContentController, WKScriptMessage message)
             {
-                Console.WriteLine(message.Body.ToString());
+                Loggers.Default.LogDebug(message.Body.ToString());
             }
         }
     }

@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using RestSharp;
 using Rownd.Maui.Core;
 using Rownd.Maui.Models.Domain;
 using Microsoft.Maui.Controls;
 using Microsoft.Maui;
+using Rownd.Maui.Utils;
 
 namespace Rownd.Maui.Models.Repos
 {
@@ -59,7 +61,7 @@ namespace Rownd.Maui.Models.Repos
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Failed to save the user: {ex}");
+                Loggers.Default.LogError("Failed to save the user: {ex}", ex);
                 return null;
             }
         }
@@ -80,7 +82,7 @@ namespace Rownd.Maui.Models.Repos
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Failed to fetch the user: {ex}");
+                Loggers.Default.LogError("Failed to fetch the user: {ex}", ex);
                 return null;
             }
         }

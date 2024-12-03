@@ -1,9 +1,11 @@
 ﻿using System;
 using Android.Content;
 using AndroidX.Core.View;
+using Microsoft.Extensions.Logging;
 using Rownd.Maui.Android.Hub;
 using Rownd.Maui.Core;
-using AWebView = Android.Webkit.WebView;
+using Rownd.Maui.Utils;
+using AWebView = Microsoft.Maui.Controls.PlatformConfiguration.Android.Webkit.WebView;
 
 namespace Rownd.Maui.Hub
 {
@@ -34,7 +36,7 @@ namespace Rownd.Maui.Hub
 
             if (rootView == null)
             {
-                Console.WriteLine("Failed to get root view from activity. This may cause rendering issues.");
+                Loggers.Default.LogWarning("Failed to get root view from activity. This may cause rendering issues.");
                 return;
             }
 

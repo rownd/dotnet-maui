@@ -123,7 +123,7 @@ namespace Rownd.Maui.Hub
 
         protected void EvaluateJavaScript(string code)
         {
-            Console.WriteLine($"Executing JS: {code}");
+            Loggers.Default.LogTrace("Executing JS: {code}", code);
             var wrappedJs = $@"
 if (typeof rownd !== 'undefined') {{
     {code}
@@ -141,7 +141,7 @@ if (typeof rownd !== 'undefined') {{
         {
             MainThread.BeginInvokeOnMainThread(async () =>
             {
-                Console.WriteLine($"Received message: {message}");
+                Loggers.Default.LogDebug("Received message: {message}", message);
                 try
                 {
                     var hubMessage = JsonConvert.DeserializeObject<Message>(message, new JsonConverterPayload());
@@ -150,7 +150,7 @@ if (typeof rownd !== 'undefined') {{
                     {
                         case MessageType.Authentication:
                             {
-                                Loggers.Shared.HubWebView.LogDebug($"Received auth payload: {hubMessage.Payload}");
+                                Loggers.HubWebView.LogDebug($"Received auth payload: {hubMessage.Payload}");
                                 stateRepo.Store.Dispatch(new StateActions.SetAuthState
                                 {
                                     AuthState = new AuthState()
@@ -176,21 +176,21 @@ if (typeof rownd !== 'undefined') {{
 
                         case MessageType.HubResize:
                             {
-                                Console.WriteLine($"Hub resize request: {hubMessage.Payload}");
+                                Loggers.Default.LogTrace("Hub resize request: {payload}", hubMessage.Payload);
                                 await bottomSheet.RequestHeight((hubMessage.Payload as PayloadHubResize).Height);
                                 break;
                             }
 
                         case MessageType.CanTouchBackgroundToDismiss:
                             {
-                                Console.WriteLine($"Hub dismissable change: {hubMessage.Payload}");
+                                Loggers.Default.LogTrace("Hub dismissable change: {payload}", hubMessage.Payload);
                                 bottomSheet.IsDismissable = (hubMessage.Payload as PayloadCanTouchBackgroundToDismiss).Enable;
                                 break;
                             }
 
                         case MessageType.CloseHub:
                             {
-                                Console.WriteLine($"Hub close request");
+                                Loggers.Default.LogTrace("Hub close request");
                                 bottomSheet.IsDismissable = true;
                                 _ = bottomSheet.Dismiss();
                                 break;
@@ -198,7 +198,7 @@ if (typeof rownd !== 'undefined') {{
 
                         case MessageType.UserDataUpdate:
                             {
-                                Console.WriteLine($"User data received: {hubMessage.Payload}");
+                                Loggers.Default.LogTrace("User data received: {payload}", hubMessage.Payload);
                                 stateRepo.Store.Dispatch(new StateActions.SetUserState
                                 {
                                     UserState = new UserState()
@@ -263,14 +263,14 @@ if (typeof rownd !== 'undefined') {{
 
                         default:
                             {
-                                Loggers.Shared.HubWebView.LogDebug($"No handler for message type '{hubMessage?.Type}'.");
+                                Loggers.HubWebView.LogDebug($"No handler for message type '{hubMessage?.Type}'.");
                                 break;
                             }
                     }
                 }
                 catch (Exception e)
                 {
-                    Loggers.Shared.HubWebView.LogError(e, $"Failed to decode hub message ({message})");
+                    Loggers.HubWebView.LogError(e, $"Failed to decode hub message ({message})");
                 }
             });
         }

@@ -1,13 +1,15 @@
-﻿using System.Drawing;
-using CoreGraphics;
-using Foundation;
-using Microsoft.Maui.Handlers;
-using Rownd.Maui.Core;
-using UIKit;
-using WebKit;
-
-namespace Rownd.Maui.Hub
+﻿namespace Rownd.Maui.Hub
 {
+    using System.Drawing;
+    using CoreGraphics;
+    using Foundation;
+    using Microsoft.Extensions.Logging;
+    using Microsoft.Maui.Handlers;
+    using Rownd.Maui.Core;
+    using Rownd.Maui.Utils;
+    using UIKit;
+    using WebKit;
+
     partial class HubWebViewHandler : WebViewHandler
     {
         private WKUserContentController userController;
@@ -30,7 +32,7 @@ namespace Rownd.Maui.Hub
 
                 if (keyWindow == null)
                 {
-                    Console.WriteLine("Did not find the key window");
+                    Loggers.Default.LogDebug("Did not find the key window");
                     return default;
                 }
 
@@ -217,7 +219,7 @@ namespace Rownd.Maui.Hub
         {
             public override void DidReceiveScriptMessage(WKUserContentController userContentController, WKScriptMessage message)
             {
-                Console.WriteLine(message.Body.ToString());
+                Loggers.Default.LogTrace(message.Body.ToString());
             }
         }
     }

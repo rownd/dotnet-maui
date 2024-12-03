@@ -42,7 +42,7 @@ namespace Rownd.Maui.Models.Repos
             }
             catch (Exception ex)
             {
-                Loggers.Shared.Default.LogError(ex, "Failed to fetch app config");
+                Loggers.Default.LogError(ex, "Failed to fetch app config");
                 return null;
             }
         }

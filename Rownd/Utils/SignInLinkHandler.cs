@@ -1,4 +1,5 @@
-﻿using RestSharp;
+﻿using Microsoft.Extensions.Logging;
+using RestSharp;
 using Rownd.Maui.Core;
 using Rownd.Maui.Models;
 using Rownd.Maui.Models.Domain;
@@ -67,14 +68,14 @@ namespace Rownd.Maui.Utils
                         AuthState = new AuthState
                         {
                             AccessToken = response.Data.AccessToken,
-                            RefreshToken = response.Data.RefreshToken
-                        }
+                            RefreshToken = response.Data.RefreshToken,
+                        },
                     })
                 );
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Failed handling sign-in link '{url}'. Exception: {ex}");
+                Loggers.Default.LogError("Failed handling sign-in link '{url}'. Exception: {ex}", url, ex);
             }
         }
     }
