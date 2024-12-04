@@ -1,5 +1,17 @@
 
 
+# [1.2.0](https://github.com/rownd/dotnet-maui/compare/1.1.0...1.2.0) (2024-12-04)
+
+
+### Bug Fixes
+
+* **android:** bad import refactor ([07b6c0d](https://github.com/rownd/dotnet-maui/commit/07b6c0d0d94bf0c47c35257be0f1a7775cb4848d))
+
+
+### Features
+
+* **logging:** use microsoft logging extensions for all logs ([#1](https://github.com/rownd/dotnet-maui/issues/1)) ([1007746](https://github.com/rownd/dotnet-maui/commit/10077465819f99a3a19cc1cb25223c838583b7b0))
+
 # [1.1.0](https://github.com/rownd/dotnet-maui/compare/1.0.1...1.1.0) (2024-11-19)
 
 
