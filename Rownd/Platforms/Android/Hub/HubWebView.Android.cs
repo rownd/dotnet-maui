@@ -5,7 +5,7 @@ using Microsoft.Extensions.Logging;
 using Rownd.Maui.Android.Hub;
 using Rownd.Maui.Core;
 using Rownd.Maui.Utils;
-using AWebView = Microsoft.Maui.Controls.PlatformConfiguration.Android.Webkit.WebView;
+using AWebView = Android.Webkit.WebView;
 
 namespace Rownd.Maui.Hub
 {
