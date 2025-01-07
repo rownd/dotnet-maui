@@ -1,5 +1,12 @@
 
 
+## [1.2.1](https://github.com/rownd/dotnet-maui/compare/1.2.0...1.2.1) (2025-01-07)
+
+
+### Bug Fixes
+
+* hub, jwt, and automations bugs ([#3](https://github.com/rownd/dotnet-maui/issues/3)) ([047a39a](https://github.com/rownd/dotnet-maui/commit/047a39a82eb72d0560a3aa5e79073289a27cf65b))
+
 # [1.2.0](https://github.com/rownd/dotnet-maui/compare/1.1.0...1.2.0) (2024-12-04)
 
 

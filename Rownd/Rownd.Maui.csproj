@@ -4,7 +4,7 @@
 
 		<!-- Release information -->
 		<PackageId>Rownd.Maui</PackageId>
-		<PackageVersion>1.2.0</PackageVersion>
+		<PackageVersion>1.2.1</PackageVersion>
 		<AssemblyVersion>1</AssemblyVersion>
 		<Title>Rownd.Maui</Title>
 		<Description>Integrate simple, frictionless authentication into your .NET MAUI app.</Description>
@@ -17,12 +17,12 @@
 		<PackageIcon>assets\rownd-maui-icon.png</PackageIcon>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<PackRelease>true</PackRelease>
-		<ReleaseVersion>1.2.0</ReleaseVersion>
+		<ReleaseVersion>1.2.1</ReleaseVersion>
 		<SynchReleaseVersion>false</SynchReleaseVersion>
 
 		<!-- Framework setup -->
 		<TargetFrameworks>net8.0;net8.0-android;net8.0-ios;net8.0-maccatalyst</TargetFrameworks>
-		<TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net8.0-windows10.0.1.2.0.0</TargetFrameworks>
+		<TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net8.0-windows10.0.1.2.1.0</TargetFrameworks>
 
 		<UseMaui>true</UseMaui>
 		<UseMauiEssentials>true</UseMauiEssentials>
@@ -34,7 +34,7 @@
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">26.0</SupportedOSPlatformVersion>
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">14.0</SupportedOSPlatformVersion>
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'maccatalyst'">14.0</SupportedOSPlatformVersion>
-		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.1.2.0.0</SupportedOSPlatformVersion>
+		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.1.2.1.0</SupportedOSPlatformVersion>
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'tizen'">6.5</SupportedOSPlatformVersion>
 		<ProjectGuid>{78638D85-4ED5-4921-AF2F-5E7638F40553}</ProjectGuid>
 		<Configurations>Debug;Release</Configurations>
