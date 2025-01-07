@@ -336,7 +336,7 @@ namespace Rownd.Controls
 
             // Ignore small, negative adjustments in height
             var heightDifference = Math.Abs(Math.Abs(position) - Math.Abs(currentPosition));
-            if (heightDifference < 99)
+            if (heightDifference < 25)
             {
                 return;
             }

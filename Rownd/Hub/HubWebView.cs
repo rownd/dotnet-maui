@@ -50,7 +50,33 @@ namespace Rownd.Maui.Hub
             await InitializeWebView();
         }
 
-        internal async void RenderHub()
+        internal async Task RenderHub()
+        {
+            if (this.Handler == null)
+            {
+                EventHandler? handler = null;
+                handler = (object? s, EventArgs e) =>
+                {
+                    if (this.Handler?.PlatformView == null)
+                    {
+                        return;
+                    }
+
+                    Task.Run(async () =>
+                    {
+                        await this.RenderHubInternal();
+                    });
+                    this.HandlerChanged -= handler;
+                };
+                this.HandlerChanged += handler;
+
+                return;
+            }
+
+            await this.RenderHubInternal();
+        }
+
+        private async Task RenderHubInternal()
         {
             var url = await config.GetHubLoaderUrl();
             MainThread.BeginInvokeOnMainThread(async () =>

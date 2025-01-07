@@ -151,7 +151,7 @@ namespace Rownd.Maui
         }
 
         #region Internal methods
-        internal async void DisplayHub(HubPageSelector page, RowndSignInJsOptions? opts = null)
+        internal async Task DisplayHub(HubPageSelector page, RowndSignInJsOptions? opts = null)
         {
             await MainThread.InvokeOnMainThreadAsync(async () =>
             {

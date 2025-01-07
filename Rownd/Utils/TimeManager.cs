@@ -30,7 +30,7 @@ public class TimeManager
 
             var timePassed = default(DateTime).Subtract(FetchTime.Value);
 
-            return FetchedWorldTime.Value.Add(timePassed);
+            return FetchedWorldTime.Value.Add(timePassed).ToUniversalTime();
         }
     }
 
