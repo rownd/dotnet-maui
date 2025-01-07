@@ -65,8 +65,8 @@
                         }
 
                         return action.SignInState;
-                    }
-                ).ToList();
+                    })
+                .ToList();
         }
     }
 }

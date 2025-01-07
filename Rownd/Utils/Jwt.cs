@@ -1,4 +1,6 @@
-﻿namespace Rownd.Maui.Utils
+﻿using JWT.Serializers;
+
+namespace Rownd.Maui.Utils
 {
     using JWT;
     using JWT.Builder;
@@ -7,6 +9,8 @@
 
     public class Jwt
     {
+        private static readonly NewtonsoftJsonSerializer Serializer = new();
+
         public static bool IsJwtValid(string token)
         {
             try
@@ -15,6 +19,7 @@
                 valParams.ValidateSignature = false;
                 valParams.TimeMargin = 60;
                 var json = JwtBuilder.Create()
+                    .WithJsonSerializer(Serializer)
                     .WithValidationParameters(valParams)
                     .Decode(token);
 
@@ -28,7 +33,7 @@
 
                 // Coerce exp to long
                 var jwtExp = Convert.ToInt64(jwtClaims["exp"]);
-                var jwtExpTime = DateTimeOffset.FromUnixTimeSeconds(jwtExp).DateTime;
+                var jwtExpTime = DateTimeOffset.FromUnixTimeSeconds(jwtExp).UtcDateTime;
                 var timeManager = Shared.TimeManager;
 
                 // Try our best to get internet time, but fallback to local time if we must
@@ -36,9 +41,24 @@
 
                 return jwtExpTime > currentTime.AddMinutes(5);
             }
-            catch
+            catch (Exception ex)
             {
                 return false;
+            }
+        }
+
+        private class NewtonsoftJsonSerializer(JsonSerializerSettings? settings = null) : IJsonSerializer
+        {
+            private readonly JsonSerializerSettings settings = settings ?? new JsonSerializerSettings();
+
+            public string Serialize(object obj)
+            {
+                return JsonConvert.SerializeObject(obj, this.settings);
+            }
+
+            public object? Deserialize(Type type, string json)
+            {
+                return JsonConvert.DeserializeObject(json, type, this.settings);
             }
         }
     }
