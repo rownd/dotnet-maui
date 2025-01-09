@@ -47,7 +47,10 @@ namespace Rownd.Maui.Hub
         {
             base.OnHandlerChanged();
 
-            await InitializeWebView();
+            if (this.Handler != null)
+            {
+                await InitializeWebView();
+            }
         }
 
         internal async Task RenderHub()
