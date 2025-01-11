@@ -1,4 +1,10 @@
+# Changelog
 
+## <small>1.2.2 (2025-01-11)</small>
+
+* chore: properly update package version in .csproj ([55e64a7](https://github.com/rownd/dotnet-maui/commit/55e64a7))
+* fix(hub): prevent init/npe when handler is null ([210c219](https://github.com/rownd/dotnet-maui/commit/210c219))
+* fix(sheet): ensure dismissing/animations do not throw exceptions ([adb9bb7](https://github.com/rownd/dotnet-maui/commit/adb9bb7))
 
 ## [1.2.1](https://github.com/rownd/dotnet-maui/compare/1.2.0...1.2.1) (2025-01-07)
 

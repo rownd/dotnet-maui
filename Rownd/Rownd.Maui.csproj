@@ -4,7 +4,7 @@
 
 		<!-- Release information -->
 		<PackageId>Rownd.Maui</PackageId>
-		<PackageVersion>1.2.1</PackageVersion>
+		<PackageVersion>1.2.2</PackageVersion>
 		<AssemblyVersion>1</AssemblyVersion>
 		<Title>Rownd.Maui</Title>
 		<Description>Integrate simple, frictionless authentication into your .NET MAUI app.</Description>
@@ -62,81 +62,81 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="RestSharp" Version="112.1.0" />
-		<PackageReference Include="JsonKnownTypes" Version="0.6.0" />
-		<PackageReference Include="JsonSubTypes" Version="2.0.1" />
-		<PackageReference Include="JWT" Version="10.1.1" />
-		<PackageReference Include="System.Reactive" Version="6.0.0" />
-		<PackageReference Include="RestSharp.Serializers.NewtonsoftJson" Version="112.1.0" />
-		<PackageReference Include="HttpTracer" Version="2.1.1" />
-		<PackageReference Include="ReduxSimple" Version="3.7.0" />
-		<PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
-		<PackageReference Include="Microsoft.Extensions.Hosting" Version="7.0.1" />
-		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-		<PackageReference Include="System.Text.Json" Version="9.0.0" />
-		<PackageReference Include="CommunityToolkit.Maui" Version="9.0.1" />
-		<PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)" />
-		<PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="$(MauiVersion)" />
-		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="8.0.0" />
-		<PackageReference Include="Microsoft.Maui.Essentials" Version="$(MauiVersion)" />
+		<PackageReference Include="RestSharp" Version="112.1.0"/>
+		<PackageReference Include="JsonKnownTypes" Version="0.6.0"/>
+		<PackageReference Include="JsonSubTypes" Version="2.0.1"/>
+		<PackageReference Include="JWT" Version="10.1.1"/>
+		<PackageReference Include="System.Reactive" Version="6.0.0"/>
+		<PackageReference Include="RestSharp.Serializers.NewtonsoftJson" Version="112.1.0"/>
+		<PackageReference Include="HttpTracer" Version="2.1.1"/>
+		<PackageReference Include="ReduxSimple" Version="3.7.0"/>
+		<PackageReference Include="Microsoft.CSharp" Version="4.7.0"/>
+		<PackageReference Include="Microsoft.Extensions.Hosting" Version="7.0.1"/>
+		<PackageReference Include="Newtonsoft.Json" Version="13.0.3"/>
+		<PackageReference Include="System.Text.Json" Version="9.0.0"/>
+		<PackageReference Include="CommunityToolkit.Maui" Version="9.0.1"/>
+		<PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)"/>
+		<PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="$(MauiVersion)"/>
+		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="8.0.0"/>
+		<PackageReference Include="Microsoft.Maui.Essentials" Version="$(MauiVersion)"/>
 	</ItemGroup>
 
 	<ItemGroup>
-		<None Remove="Core\" />
-		<None Remove="Models\" />
-		<None Remove="Models\Domain\" />
-		<None Remove="Models\Repos\" />
-		<None Remove="Utils\" />
-		<None Remove="assets\" />
-		<None Include="assets/rownd-maui-icon.png" Pack="true" PackagePath="assets" />
-		<None Include="README.md" Pack="true" PackagePath="\" />
-		<None Remove="Hub\" />
-		<None Remove="Platforms\iOS\" />
-		<None Remove="Platforms\iOS\assets\rownd-apple-icon.png" />
-		<None Remove="Platforms\MacCatalyst\" />
-		<None Remove="Platforms\iOS\Utils\" />
-		<None Remove="Platforms\MacCatalyst\Utils\" />
-		<None Remove="Platforms\Android\Utils\" />
+		<None Remove="Core\"/>
+		<None Remove="Models\"/>
+		<None Remove="Models\Domain\"/>
+		<None Remove="Models\Repos\"/>
+		<None Remove="Utils\"/>
+		<None Remove="assets\"/>
+		<None Include="assets/rownd-maui-icon.png" Pack="true" PackagePath="assets"/>
+		<None Include="README.md" Pack="true" PackagePath="\"/>
+		<None Remove="Hub\"/>
+		<None Remove="Platforms\iOS\"/>
+		<None Remove="Platforms\iOS\assets\rownd-apple-icon.png"/>
+		<None Remove="Platforms\MacCatalyst\"/>
+		<None Remove="Platforms\iOS\Utils\"/>
+		<None Remove="Platforms\MacCatalyst\Utils\"/>
+		<None Remove="Platforms\Android\Utils\"/>
 	</ItemGroup>
 	<ItemGroup>
-		<Folder Include="Core\" />
-		<Folder Include="Models\" />
-		<Folder Include="Models\Domain\" />
-		<Folder Include="Models\Repos\" />
-		<Folder Include="assets\" />
-		<Folder Include="Hub\" />
-		<Folder Include="Platforms\" />
-		<Folder Include="Platforms\Android\" />
-		<Folder Include="Platforms\Android\Hub\" />
-		<Folder Include="Platforms\Android\assets\" />
-		<Folder Include="Platforms\iOS\" />
-		<Folder Include="Platforms\MacCatalyst\" />
-		<Folder Include="Platforms\iOS\Utils\" />
-		<Folder Include="Platforms\MacCatalyst\Utils\" />
-		<Folder Include="Platforms\Android\Utils\" />
+		<Folder Include="Core\"/>
+		<Folder Include="Models\"/>
+		<Folder Include="Models\Domain\"/>
+		<Folder Include="Models\Repos\"/>
+		<Folder Include="assets\"/>
+		<Folder Include="Hub\"/>
+		<Folder Include="Platforms\"/>
+		<Folder Include="Platforms\Android\"/>
+		<Folder Include="Platforms\Android\Hub\"/>
+		<Folder Include="Platforms\Android\assets\"/>
+		<Folder Include="Platforms\iOS\"/>
+		<Folder Include="Platforms\MacCatalyst\"/>
+		<Folder Include="Platforms\iOS\Utils\"/>
+		<Folder Include="Platforms\MacCatalyst\Utils\"/>
+		<Folder Include="Platforms\Android\Utils\"/>
 	</ItemGroup>
 	<!-- Android -->
 	<ItemGroup Condition="$(TargetFramework.StartsWith('net')) == true AND $(TargetFramework.Contains('-android')) != true">
-		<Compile Remove="**\Android\**\*.cs" />
-		<None Include="**\Android\**\*.cs" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder)" />
+		<Compile Remove="**\Android\**\*.cs"/>
+		<None Include="**\Android\**\*.cs" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder)"/>
 	</ItemGroup>
 	<!-- Both iOS and Mac Catalyst -->
 	<ItemGroup Condition="$(TargetFramework.StartsWith('net8.0-ios')) != true AND $(TargetFramework.StartsWith('net8.0-maccatalyst')) != true">
-		<Compile Remove="**\MaciOS\**\*.cs" />
+		<Compile Remove="**\MaciOS\**\*.cs"/>
 	</ItemGroup>
 	<!-- iOS -->
 	<ItemGroup Condition="$(TargetFramework.StartsWith('net8.0-ios')) != true">
-		<Compile Remove="**\iOS\**\*.cs" />
-    <None Include="**\iOS\**\*.cs" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder)" />
+		<Compile Remove="**\iOS\**\*.cs"/>
+    <None Include="**\iOS\**\*.cs" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder)"/>
 	</ItemGroup>
 	<!-- Mac Catalyst -->
 	<ItemGroup Condition="$(TargetFramework.StartsWith('net8.0-maccatalyst')) != true">
-		<Compile Remove="**\MacCatalyst\**\*.cs" />
-		<None Include="**\MacCatalyst\**\*.cs" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder)" />
+		<Compile Remove="**\MacCatalyst\**\*.cs"/>
+		<None Include="**\MacCatalyst\**\*.cs" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder)"/>
 	</ItemGroup>
 	<!-- Windows -->
 	<ItemGroup Condition="$(TargetFramework.Contains('-windows')) != true">
-		<Compile Remove="**\Windows\**\*.cs" />
-		<None Include="**\Windows\**\*.cs" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder)" />
+		<Compile Remove="**\Windows\**\*.cs"/>
+		<None Include="**\Windows\**\*.cs" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder)"/>
 	</ItemGroup>
 </Project>
