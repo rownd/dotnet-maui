@@ -124,6 +124,8 @@ namespace Rownd.Controls
 
         private bool isPanning = false;
 
+        private bool isAnimating = false;
+
         public event EventHandler? OnDismiss;
 
         public HubBottomSheetPage()
@@ -168,7 +170,7 @@ namespace Rownd.Controls
         {
             base.OnDisappearing();
             this.ResetWindowSoftInputModeAdjust();
-            OnDismiss?.Invoke(this, new EventArgs());
+            OnDismiss?.Invoke(this, EventArgs.Empty);
         }
 
         private readonly uint duration = 300;
@@ -272,12 +274,16 @@ namespace Rownd.Controls
                 return;
             }
 
-            await AnimateOut();
-
-            if (Microsoft.Maui.Controls.Application.Current?.MainPage != null)
+            MainThread.BeginInvokeOnMainThread(async void () =>
             {
-                await Microsoft.Maui.Controls.Application.Current.MainPage.Navigation.PopModalAsync(false);
-            }
+                await AnimateOut();
+
+                if (Microsoft.Maui.Controls.Application.Current?.MainPage != null)
+                {
+                    await Task.Delay(50);
+                    await Microsoft.Maui.Controls.Application.Current.MainPage.Navigation.PopModalAsync(false);
+                }
+            });
         }
 
         private double GetProportionCoordinate(double proportion)
@@ -330,6 +336,11 @@ namespace Rownd.Controls
          */
         public async Task AnimateTo(double position, Easing? easing = null)
         {
+            if (this.isAnimating || this.isPanning || Sheet == null || Sheet.Handler == null)
+            {
+                return;
+            }
+
             easing ??= Easing.SpringOut;
 
             position = -LimitYCoordToScreenMax(position + Webview.KeyboardHeight);
@@ -343,37 +354,73 @@ namespace Rownd.Controls
 
             detentPoint = position;
 
+            this.isAnimating = true;
             await Sheet.TranslateTo(Sheet.X, position, duration, easing);
+            this.isAnimating = false;
             currentPosition = Sheet.TranslationY;
         }
 
         private async Task AnimateIn()
         {
-            await Task.WhenAll(
-                Backdrop.FadeTo(0.5, length: duration),
-                Sheet.TranslateTo(0, -InitialPosition, length: duration, easing: Easing.SpringOut),
-                Sheet.FadeTo(1, duration, Easing.SpringOut)
-            );
+            try
+            {
+                this.isAnimating = true;
+                Sheet.BatchBegin();
+
+                await Task.WhenAll(
+                    Backdrop.FadeTo(0.5, length: duration),
+                    Sheet.TranslateTo(0, -InitialPosition, length: duration, easing: Easing.SpringOut),
+                    Sheet.FadeTo(1, duration, Easing.SpringOut)
+                );
+            }
+            finally
+            {
+                Sheet.BatchCommit();
+                this.isAnimating = false;
+            }
+
             currentPosition = Sheet.TranslationY;
         }
 
         private async Task AnimateOut()
         {
-            await Task.WhenAll(
-                Sheet.TranslateTo(x: 0, y: 0, length: duration, easing: Easing.SinIn),
-                Sheet.FadeTo(0, duration, Easing.SinIn),
-                Backdrop.FadeTo(0, duration)
-            );
+            if (this.isAnimating || Sheet == null || Sheet.Handler == null)
+            {
+                return;
+            }
+
+            try
+            {
+                this.isAnimating = true;
+                Sheet.BatchBegin();
+                await Task.WhenAll(
+                    Sheet.TranslateTo(x: 0, y: 0, length: duration, easing: Easing.SinIn),
+                    Sheet.FadeTo(0, duration, Easing.SinIn),
+                    Backdrop.FadeTo(0, duration)
+                );
+            }
+            finally
+            {
+                Sheet.BatchCommit();
+                this.isAnimating = false;
+            }
+
             currentPosition = Sheet.TranslationY;
         }
 
         private void TapGestureRecognizer_Tapped(object sender, System.EventArgs e)
         {
+            if (this.isAnimating)
+            {
+                return;
+            }
+
             _ = Dismiss();
         }
 
         private async Task Shake()
         {
+            this.isAnimating = true;
             uint timeout = 50;
             await Sheet.TranslateTo(0, currentPosition - 15, timeout);
             await Sheet.TranslateTo(0, currentPosition + 15, timeout);
@@ -382,6 +429,7 @@ namespace Rownd.Controls
             await Sheet.TranslateTo(0, currentPosition - 5, timeout);
             await Sheet.TranslateTo(0, currentPosition + 5, timeout);
             Sheet.TranslationY = currentPosition;
+            this.isAnimating = false;
         }
     }
 }
