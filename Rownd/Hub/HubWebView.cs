@@ -14,10 +14,15 @@ namespace Rownd.Maui.Hub
     {
         private readonly Config config = Shared.ServiceProvider.GetService<Config>();
         private readonly StateRepo stateRepo = StateRepo.Get();
+
         private HubBottomSheetPage bottomSheet { get; set; }
+
         internal double KeyboardHeight { get; private set; } = 0;
+
         internal RowndSignInJsOptions HubOpts { get; set; } = new RowndSignInJsOptions();
+
         internal HubPageSelector TargetPage { get; set; } = HubPageSelector.SignIn;
+
         internal bool EnableWebDevTools = true;
 
         private partial Task InitializeWebView();
@@ -47,15 +52,18 @@ namespace Rownd.Maui.Hub
         {
             base.OnHandlerChanged();
 
-            await InitializeWebView();
+            if (this.Handler != null)
+            {
+                await InitializeWebView();
+            }
         }
 
         internal async Task RenderHub()
         {
             if (this.Handler == null)
             {
-                EventHandler? handler = null;
-                handler = (object? s, EventArgs e) =>
+                EventHandler? evHandler = null;
+                evHandler = (object? s, EventArgs e) =>
                 {
                     if (this.Handler?.PlatformView == null)
                     {
@@ -66,9 +74,9 @@ namespace Rownd.Maui.Hub
                     {
                         await this.RenderHubInternal();
                     });
-                    this.HandlerChanged -= handler;
+                    this.HandlerChanged -= evHandler;
                 };
-                this.HandlerChanged += handler;
+                this.HandlerChanged += evHandler;
 
                 return;
             }

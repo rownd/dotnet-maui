@@ -91,50 +91,51 @@
         {
             base.DisconnectHandler(platformView);
             platformView.NavigationDelegate = null!;
+            platformView.Dispose();
         }
 
         private void ListenForKeyboardNotifications()
         {
-            var hubWebView = (HubWebView)VirtualView;
+            HubWebView? hubWebView = (HubWebView?)this.VirtualView;
 
             // Handle keyboard showing notifications
             UIKeyboard.Notifications.ObserveWillShow((sender, args) =>
             {
-                isKeyboardStateChanging = true;
+                this.isKeyboardStateChanging = true;
                 CGRect keyboardFrame = args.FrameEnd;
-                _ = hubWebView.HandleKeyboardStateChange(true, 0);
+                _ = hubWebView?.HandleKeyboardStateChange(true, 0);
             });
 
             UIKeyboard.Notifications.ObserveDidShow((sender, args) =>
             {
-                isKeyboardStateChanging = false;
+                this.isKeyboardStateChanging = false;
             });
 
             // Handle keyboard hide notifications
             UIKeyboard.Notifications.ObserveWillHide((sender, args) =>
             {
-                isKeyboardStateChanging = true;
-                _ = hubWebView.HandleKeyboardStateChange(false, 0);
+                this.isKeyboardStateChanging = true;
+                _ = hubWebView?.HandleKeyboardStateChange(false, 0);
             });
 
             UIKeyboard.Notifications.ObserveDidHide((sender, args) =>
             {
-                isKeyboardStateChanging = false;
+                this.isKeyboardStateChanging = false;
             });
         }
 
         private class ScrollDelegate : UIScrollViewDelegate
         {
-            private readonly HubWebViewHandler _handler;
+            private readonly HubWebViewHandler? _handler;
 
             public ScrollDelegate(HubWebViewHandler handler)
             {
-                _handler = handler;
+                this._handler = handler;
             }
 
             public override void Scrolled(UIScrollView scrollView)
             {
-                if (!_handler.isKeyboardStateChanging)
+                if (this._handler?.isKeyboardStateChanging != true)
                 {
                     return;
                 }
@@ -144,7 +145,7 @@
                     scrollView.ContentOffset = new CoreGraphics.CGPoint
                     {
                         Y = 0,
-                        X = scrollView.ContentOffset.X
+                        X = scrollView.ContentOffset.X,
                     };
                 }
             }
