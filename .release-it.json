@@ -15,7 +15,11 @@
     "@release-it/bumper": {
       "in": "VERSION",
       "out": [
-        "Rownd/Rownd.Maui.csproj",
+        {
+          "file": "Rownd/Rownd.Maui.csproj",
+          "path": "Project > PropertyGroup > PackageVersion",
+          "type": "application/xml"
+        },
         "Rownd/README.md",
         "VERSION"
       ]
