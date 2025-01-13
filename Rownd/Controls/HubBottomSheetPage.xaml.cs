@@ -278,9 +278,10 @@ namespace Rownd.Controls
             {
                 await AnimateOut();
 
-                if (Microsoft.Maui.Controls.Application.Current?.MainPage != null)
+                await Task.Delay(50);
+
+                if (Microsoft.Maui.Controls.Application.Current?.MainPage != null && Microsoft.Maui.Controls.Application.Current.MainPage.Navigation.ModalStack.Count > 0)
                 {
-                    await Task.Delay(50);
                     await Microsoft.Maui.Controls.Application.Current.MainPage.Navigation.PopModalAsync(false);
                 }
             });
