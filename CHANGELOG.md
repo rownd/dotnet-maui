@@ -1,5 +1,9 @@
 # Changelog
 
+## <small>1.2.3 (2025-01-13)</small>
+
+* fix(sheet): do not pop modals unless one is on the stack ([d2bee7a](https://github.com/rownd/dotnet-maui/commit/d2bee7a))
+
 ## <small>1.2.2 (2025-01-11)</small>
 
 * chore: properly update package version in .csproj ([55e64a7](https://github.com/rownd/dotnet-maui/commit/55e64a7))
