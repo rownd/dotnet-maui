@@ -18,6 +18,8 @@ namespace Rownd.Maui.Hub
         private HubBottomSheetPage bottomSheet { get; set; }
 
         internal double KeyboardHeight { get; private set; } = 0;
+        
+        internal bool IsKeyboardOpen { get; private set; } = false;
 
         internal RowndSignInJsOptions HubOpts { get; set; } = new RowndSignInJsOptions();
 
@@ -211,6 +213,12 @@ if (typeof rownd !== 'undefined') {{
                         case MessageType.HubResize:
                             {
                                 Loggers.Default.LogTrace("Hub resize request: {payload}", hubMessage.Payload);
+                                if (this.IsKeyboardOpen)
+                                {
+                                    Loggers.Default.LogTrace("Ignoring resize request, because the keyboard is open.");
+                                    break;
+                                }
+
                                 await bottomSheet.RequestHeight((hubMessage.Payload as PayloadHubResize).Height);
                                 break;
                             }
@@ -237,8 +245,8 @@ if (typeof rownd !== 'undefined') {{
                                 {
                                     UserState = new UserState()
                                     {
-                                        Data = (hubMessage.Payload as PayloadUserDataUpdate).Data
-                                    }
+                                        Data = (hubMessage.Payload as PayloadUserDataUpdate).Data,
+                                    },
                                 });
                                 Shared.Rownd.FireEvent(new PayloadEvent
                                 {
@@ -275,8 +283,8 @@ if (typeof rownd !== 'undefined') {{
                                     AuthState = new AuthState
                                     {
                                         ChallengeId = payload.ChallengeId,
-                                        UserIdentifier = payload.UserIdentifier
-                                    }
+                                        UserIdentifier = payload.UserIdentifier,
+                                    },
                                 });
                                 break;
                             }
@@ -290,7 +298,7 @@ if (typeof rownd !== 'undefined') {{
                                         AccessToken = stateRepo.Store.State.Auth.AccessToken,
                                         RefreshToken = stateRepo.Store.State.Auth.RefreshToken,
                                         UserType = stateRepo.Store.State.Auth.UserType,
-                                    }
+                                    },
                                 });
                                 break;
                             }
@@ -312,6 +320,8 @@ if (typeof rownd !== 'undefined') {{
         public async Task HandleKeyboardStateChange(bool isKeyboardOpen, double keyboardHeight)
         {
             KeyboardHeight = keyboardHeight;
+            this.IsKeyboardOpen = isKeyboardOpen;
+
             if (!isKeyboardOpen)
             {
                 await bottomSheet.RequestHeight(bottomSheet.LastRequestedPosition);

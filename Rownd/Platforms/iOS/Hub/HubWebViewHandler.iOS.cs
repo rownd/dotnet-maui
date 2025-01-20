@@ -15,6 +15,8 @@
         private WKUserContentController userController;
         private bool isKeyboardStateChanging = false;
 
+        private Debouncer debouncer = new();
+
         private UIEdgeInsets ScreenInsets
         {
             get
@@ -101,9 +103,19 @@
             // Handle keyboard showing notifications
             UIKeyboard.Notifications.ObserveWillShow((sender, args) =>
             {
-                this.isKeyboardStateChanging = true;
-                CGRect keyboardFrame = args.FrameEnd;
-                _ = hubWebView?.HandleKeyboardStateChange(true, 0);
+                debouncer.Debounce(
+                    () =>
+                {
+                    if (this.isKeyboardStateChanging)
+                    {
+                        return;
+                    }
+
+                    this.isKeyboardStateChanging = true;
+                    CGRect keyboardFrame = args.FrameEnd;
+                    Loggers.HubWebView.LogTrace($"Keyboard will show. Keyboard frame: {keyboardFrame}");
+                    _ = hubWebView?.HandleKeyboardStateChange(true, 0);
+                }, 50);
             });
 
             UIKeyboard.Notifications.ObserveDidShow((sender, args) =>
@@ -114,6 +126,13 @@
             // Handle keyboard hide notifications
             UIKeyboard.Notifications.ObserveWillHide((sender, args) =>
             {
+                if (this.isKeyboardStateChanging)
+                {
+                    return;
+                }
+
+                CGRect keyboardFrame = args.FrameEnd;
+                Loggers.HubWebView.LogTrace($"Keyboard will hide. Keyboard frame: {keyboardFrame}");
                 this.isKeyboardStateChanging = true;
                 _ = hubWebView?.HandleKeyboardStateChange(false, 0);
             });
