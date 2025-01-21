@@ -1,5 +1,10 @@
 # Changelog
 
+## <small>1.2.4 (2025-01-21)</small>
+
+* chore: update release version bump ([f59a0fa](https://github.com/rownd/dotnet-maui/commit/f59a0fa))
+* fix(sheet): prevent hiding behind keyboard during resize (#5) ([6b93f33](https://github.com/rownd/dotnet-maui/commit/6b93f33)), closes [#5](https://github.com/rownd/dotnet-maui/issues/5)
+
 ## <small>1.2.3 (2025-01-13)</small>
 
 * fix(sheet): do not pop modals unless one is on the stack ([d2bee7a](https://github.com/rownd/dotnet-maui/commit/d2bee7a))
