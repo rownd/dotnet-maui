@@ -30,6 +30,7 @@ namespace Rownd.Controls
             {
                 return (int)GetValue(InitialPositionProperty);
             }
+
             set
             {
                 SetValue(InitialPositionProperty, value);
@@ -51,6 +52,7 @@ namespace Rownd.Controls
             {
                 return (bool)GetValue(IsDismissableProperty);
             }
+
             set
             {
                 SetValue(IsDismissableProperty, value);
@@ -72,6 +74,7 @@ namespace Rownd.Controls
             {
                 return (bool)GetValue(IsLoadingProperty);
             }
+
             set
             {
                 SetValue(IsLoadingProperty, value);
@@ -93,6 +96,7 @@ namespace Rownd.Controls
             {
                 return (Color)GetValue(SheetBackgroundColorProperty);
             }
+
             set
             {
                 SetValue(SheetBackgroundColorProperty, value);
@@ -114,6 +118,7 @@ namespace Rownd.Controls
             {
                 return (Color)GetValue(PrimaryForegroundColorProperty);
             }
+
             set
             {
                 SetValue(PrimaryForegroundColorProperty, value);
@@ -298,7 +303,11 @@ namespace Rownd.Controls
             else if (OperatingSystem.IsAndroid())
             {
 #if ANDROID
-                insets = PlatformUtils.GetWindowSafeArea();
+                // This seems to be less useful than doing all computation within the
+                // Android platform handlers and just using zero here (so we keep the same
+                // contract with iOS)
+                // insets = PlatformUtils.GetWindowSafeArea();
+                insets = Thickness.Zero;
 #endif
             }
 

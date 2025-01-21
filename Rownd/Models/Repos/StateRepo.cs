@@ -56,7 +56,7 @@ namespace Rownd.Maui.Models.Repos
                 Store.State.IsReady = true;
                 Store.Dispatch(new StateActions.SetGlobalState()
                 {
-                    GlobalState = Store.State
+                    GlobalState = Store.State,
                 });
 
                 // Check to see if we were handling an existing auth challenge
@@ -67,7 +67,7 @@ namespace Rownd.Maui.Models.Repos
                     {
                         SignInStep = SignInStep.Completing,
                         ChallengeId = Store.State.Auth.ChallengeId,
-                        UserIdentifier = Store.State.Auth.UserIdentifier
+                        UserIdentifier = Store.State.Auth.UserIdentifier,
                     });
                 }
             });
